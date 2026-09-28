@@ -267,7 +267,6 @@ if (finePointer && trailCanvas && !reducedMotion) {
   function drawTrail(now) {
     points = points.filter((point) => now - point.time < lifetime);
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    context.lineWidth = 1.8;
     context.lineCap = "round";
     context.lineJoin = "round";
 
@@ -275,20 +274,29 @@ if (finePointer && trailCanvas && !reducedMotion) {
       const previous = points[index - 1];
       const point = points[index];
       if (point.breakBefore) continue;
-      const fade = Math.pow(1 - (now - point.time) / lifetime, 1.6);
-      context.strokeStyle = `hsla(${point.hue}, 85%, 55%, ${fade * 0.8})`;
+      const fade = Math.pow(1 - (now - point.time) / lifetime, 1.35);
+      const gradient = context.createLinearGradient(previous.x, previous.y, point.x, point.y);
+      gradient.addColorStop(0, `hsl(${previous.hue}, 100%, 62%)`);
+      gradient.addColorStop(1, `hsl(${point.hue}, 100%, 62%)`);
+      context.strokeStyle = gradient;
       context.beginPath();
       context.moveTo(previous.x, previous.y);
       context.lineTo(point.x, point.y);
+      context.lineWidth = 16;
+      context.globalAlpha = fade * 0.14;
+      context.stroke();
+      context.lineWidth = 4;
+      context.globalAlpha = fade * 0.9;
       context.stroke();
     }
+    context.globalAlpha = 1;
 
     const head = points[points.length - 1];
     if (head) {
       const fade = 1 - (now - head.time) / lifetime;
-      context.fillStyle = `hsla(${head.hue}, 85%, 55%, ${fade})`;
+      context.fillStyle = `hsla(${head.hue}, 100%, 62%, ${fade})`;
       context.beginPath();
-      context.arc(head.x, head.y, 2.2, 0, Math.PI * 2);
+      context.arc(head.x, head.y, 3, 0, Math.PI * 2);
       context.fill();
     }
     trailFrame = points.length ? window.requestAnimationFrame(drawTrail) : null;
@@ -302,7 +310,9 @@ if (finePointer && trailCanvas && !reducedMotion) {
       x: event.clientX,
       y: event.clientY,
       time: now,
-      hue: (now * 0.12 + event.clientX * 0.2 + event.clientY * 0.12) % 360,
+      hue: previous
+        ? (previous.hue + Math.hypot(event.clientX - previous.x, event.clientY - previous.y) * 0.45 + (now - previous.time) * 0.025) % 360
+        : (now * 0.06) % 360,
       breakBefore: !previous || now - previous.time > 100,
     });
     if (points.length > 600) points.splice(0, points.length - 600);

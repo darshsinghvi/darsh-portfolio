@@ -7,7 +7,6 @@ const copyButton = document.querySelector(".copy-email");
 const toast = document.querySelector(".toast");
 const year = document.querySelector("#year");
 const heroScroll = document.querySelector(".hero-scroll");
-const heroSticky = document.querySelector(".hero-sticky");
 const heroScenes = [...document.querySelectorAll(".hero-scene")];
 const heroCount = document.querySelector(".hero-count");
 const education = document.querySelector(".education-showcase");
@@ -28,9 +27,6 @@ const signalPath = document.querySelector(".terminal-signal-line");
 const signalCrossLine = document.querySelector(".signal-cross-line");
 const signalCrossDot = document.querySelector(".signal-cross-dot");
 const signalReadout = document.querySelector(".signal-readout strong");
-const resultRows = [...document.querySelectorAll(".result-row")];
-const marketLens = document.querySelector(".market-lens");
-const lensLabel = document.querySelector(".lens-label");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = window.matchMedia("(pointer: fine)").matches;
 
@@ -44,10 +40,6 @@ let f1TrackLength = 0;
 let targetScroll = window.scrollY;
 let smoothScroll = window.scrollY;
 let motionFrame = null;
-let lensTargetX = -100;
-let lensTargetY = -100;
-let lensCurrentX = -100;
-let lensCurrentY = -100;
 
 function updateHero(scrollTop) {
   if (!heroScroll || reducedMotion) return;
@@ -204,21 +196,9 @@ function runMotionFrame() {
   const scrollDelta = targetScroll - smoothScroll;
   smoothScroll += scrollDelta * 0.14;
 
-  const lensDeltaX = lensTargetX - lensCurrentX;
-  const lensDeltaY = lensTargetY - lensCurrentY;
-  lensCurrentX += lensDeltaX * 0.2;
-  lensCurrentY += lensDeltaY * 0.2;
-
-  if (marketLens && finePointer) {
-    marketLens.style.transform = `translate3d(${lensCurrentX}px, ${lensCurrentY}px, 0) translate(-50%, -50%)`;
-  }
-
   updateMotion(smoothScroll);
 
-  const keepAnimating =
-    Math.abs(scrollDelta) > 0.12 ||
-    Math.abs(lensDeltaX) > 0.12 ||
-    Math.abs(lensDeltaY) > 0.12;
+  const keepAnimating = Math.abs(scrollDelta) > 0.12;
 
   if (keepAnimating) motionFrame = window.requestAnimationFrame(runMotionFrame);
   else motionFrame = null;
@@ -250,100 +230,6 @@ window.addEventListener("resize", () => {
   requestMotionUpdate();
 });
 
-const trailCanvas = document.querySelector(".cursor-trail");
-if (finePointer && trailCanvas && !reducedMotion) {
-  const context = trailCanvas.getContext("2d");
-  const lifetime = 3000;
-  let points = [];
-  let trailFrame = null;
-
-  function resizeTrail() {
-    const ratio = Math.min(window.devicePixelRatio || 1, 2);
-    trailCanvas.width = Math.round(window.innerWidth * ratio);
-    trailCanvas.height = Math.round(window.innerHeight * ratio);
-    context.setTransform(ratio, 0, 0, ratio, 0, 0);
-  }
-
-  function drawTrail(now) {
-    points = points.filter((point) => now - point.time < lifetime);
-    context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    context.lineCap = "round";
-    context.lineJoin = "round";
-
-    for (let index = 1; index < points.length; index += 1) {
-      const previous = points[index - 1];
-      const point = points[index];
-      if (point.breakBefore) continue;
-      const fade = Math.pow(1 - (now - point.time) / lifetime, 1.35);
-      const gradient = context.createLinearGradient(previous.x, previous.y, point.x, point.y);
-      gradient.addColorStop(0, `hsl(${previous.hue}, 100%, 62%)`);
-      gradient.addColorStop(1, `hsl(${point.hue}, 100%, 62%)`);
-      context.strokeStyle = gradient;
-      context.beginPath();
-      context.moveTo(previous.x, previous.y);
-      context.lineTo(point.x, point.y);
-      context.lineWidth = 16;
-      context.globalAlpha = fade * 0.14;
-      context.stroke();
-      context.lineWidth = 4;
-      context.globalAlpha = fade * 0.9;
-      context.stroke();
-    }
-    context.globalAlpha = 1;
-
-    const head = points[points.length - 1];
-    if (head) {
-      const fade = 1 - (now - head.time) / lifetime;
-      context.fillStyle = `hsla(${head.hue}, 100%, 62%, ${fade})`;
-      context.beginPath();
-      context.arc(head.x, head.y, 3, 0, Math.PI * 2);
-      context.fill();
-    }
-    trailFrame = points.length ? window.requestAnimationFrame(drawTrail) : null;
-  }
-
-  document.addEventListener("pointermove", (event) => {
-    if (event.pointerType !== "mouse") return;
-    const now = performance.now();
-    const previous = points[points.length - 1];
-    points.push({
-      x: event.clientX,
-      y: event.clientY,
-      time: now,
-      hue: previous
-        ? (previous.hue + Math.hypot(event.clientX - previous.x, event.clientY - previous.y) * 0.45 + (now - previous.time) * 0.025) % 360
-        : (now * 0.06) % 360,
-      breakBefore: !previous || now - previous.time > 100,
-    });
-    if (points.length > 600) points.splice(0, points.length - 600);
-    if (trailFrame === null) trailFrame = window.requestAnimationFrame(drawTrail);
-  }, { passive: true });
-
-  window.addEventListener("resize", resizeTrail);
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) points = [];
-  });
-  resizeTrail();
-}
-
-if (finePointer && heroSticky && !reducedMotion) {
-  heroSticky.addEventListener("pointermove", (event) => {
-    const offsetX = event.clientX - window.innerWidth * 0.72;
-    const offsetY = event.clientY - window.innerHeight * 0.46;
-    heroScroll.style.setProperty("--pointer-x", `${event.clientX}px`);
-    heroScroll.style.setProperty("--pointer-y", `${event.clientY}px`);
-    heroScroll.style.setProperty("--ring-one-x", `${offsetX * 0.018}px`);
-    heroScroll.style.setProperty("--ring-one-y", `${offsetY * 0.018}px`);
-    heroScroll.style.setProperty("--ring-two-x", `${offsetX * -0.025}px`);
-    heroScroll.style.setProperty("--ring-two-y", `${offsetY * -0.025}px`);
-  });
-
-  heroSticky.addEventListener("pointerleave", () => {
-    heroScroll.style.setProperty("--pointer-x", "72vw");
-    heroScroll.style.setProperty("--pointer-y", "46vh");
-  });
-}
-
 if (finePointer && signalWindow && signalPath) {
   const pathLength = signalPath.getTotalLength();
 
@@ -373,16 +259,6 @@ if (finePointer && signalWindow && signalPath) {
 
   signalWindow.addEventListener("pointerleave", () => {
     signalWindow.classList.remove("pointer-active");
-  });
-}
-
-if (finePointer) {
-  resultRows.forEach((row) => {
-    row.addEventListener("pointermove", (event) => {
-      const rect = row.getBoundingClientRect();
-      row.style.setProperty("--row-x", `${event.clientX - rect.left}px`);
-      row.style.setProperty("--row-y", `${event.clientY - rect.top}px`);
-    });
   });
 }
 

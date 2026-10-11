@@ -10,8 +10,8 @@
   <meta property="og:type" content="website">
   <title>Darsh Singhvi — Quantitative Trading & Finance</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=interest-layout-v4">
-  <script src="script.js?v=interest-layout-v4" defer></script>
+  <link rel="stylesheet" href="styles.css?v=career-chart-v1">
+  <script src="script.js?v=career-chart-v1" defer></script>
   <noscript><style>.intro-screen{display:none}.reveal,.hero-line{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
@@ -30,6 +30,7 @@
 
     <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
       <a href="#education">Education</a>
+      <a href="#timeline">Timeline</a>
       <a href="#work">Work</a>
       <a href="#experience">Experience</a>
       <a href="#about">About</a>
@@ -122,6 +123,65 @@
               <div><dt>Advanced coursework</dt><dd>Multivariable Calculus · Calculus II · AP Statistics · AP Computer Science A · AP Microeconomics · AP Macroeconomics</dd></div>
             </dl>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="market-timeline" id="timeline" aria-labelledby="timeline-title">
+      <div class="market-timeline-shell">
+        <div class="market-timeline-heading reveal">
+          <p class="section-kicker">Career chart</p>
+          <div>
+            <h2 id="timeline-title">The work so far,<br><em>over time.</em></h2>
+            <p>Scroll through the line and click a marker to see what was happening at each point.</p>
+          </div>
+        </div>
+
+        <div class="market-timeline-scroll">
+          <div class="market-timeline-sticky">
+            <div class="market-chart-panel">
+              <div class="market-chart-top">
+                <span>DS / CAREER INDEX</span>
+                <span>SCROLL TO ADVANCE</span>
+                <span class="market-chart-readout">SCAN <b>01</b> / 06</span>
+              </div>
+              <div class="market-chart-viewport">
+                <div class="market-chart-stage">
+                  <svg class="career-chart" viewBox="0 0 1500 420" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="careerFill" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="#8bd4a8" stop-opacity="0.34"></stop>
+                        <stop offset="100%" stop-color="#8bd4a8" stop-opacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+                    <g class="career-grid">
+                      <line x1="0" y1="90" x2="1500" y2="90"></line>
+                      <line x1="0" y1="190" x2="1500" y2="190"></line>
+                      <line x1="0" y1="290" x2="1500" y2="290"></line>
+                      <line x1="0" y1="390" x2="1500" y2="390"></line>
+                    </g>
+                    <path class="career-area" d="M0 348 C90 336 140 302 220 314 S340 330 430 258 S550 216 640 239 S760 275 850 186 S1000 158 1080 173 S1200 113 1280 128 S1400 82 1500 52 L1500 420 L0 420 Z"></path>
+                    <path class="career-line" d="M0 348 C90 336 140 302 220 314 S340 330 430 258 S550 216 640 239 S760 275 850 186 S1000 158 1080 173 S1200 113 1280 128 S1400 82 1500 52"></path>
+                  </svg>
+                  <div class="career-points">
+                    <button class="career-point active" style="--point-x: 7%; --point-y: 82%;" data-event="fbla" aria-label="2022 FBLA national champion"><span>01</span></button>
+                    <button class="career-point" style="--point-x: 24%; --point-y: 72%;" data-event="catalyst" aria-label="2023 Catalyst Business Advising"><span>02</span></button>
+                    <button class="career-point" style="--point-x: 43%; --point-y: 55%;" data-event="research" aria-label="2024 financial machine learning research"><span>03</span></button>
+                    <button class="career-point" style="--point-x: 59%; --point-y: 60%;" data-event="baymont" aria-label="2024 Baymont finance internship"><span>04</span></button>
+                    <button class="career-point" style="--point-x: 77%; --point-y: 39%;" data-event="mscf" aria-label="2026 CMU MSCF trading competition"><span>05</span></button>
+                    <button class="career-point" style="--point-x: 94%; --point-y: 20%;" data-event="sig" aria-label="2026 Susquehanna program"><span>06</span></button>
+                  </div>
+                  <div class="career-years" aria-hidden="true"><span>2022</span><span>2023</span><span>2024</span><span>2024</span><span>2026</span><span>2026</span></div>
+                </div>
+              </div>
+              <div class="career-detail" aria-live="polite">
+                <div><span class="career-detail-year">2022</span><strong>FBLA National Champion</strong></div>
+                <p>Placed first of approximately 500 teams in Financial Statement Analysis.</p>
+                <span class="career-detail-tag">ANALYSIS / LEADERSHIP</span>
+              </div>
+            </div>
+            <p class="market-timeline-cue">Scroll to move right <span>→</span></p>
+          </div>
         </div>
       </div>
     </section>

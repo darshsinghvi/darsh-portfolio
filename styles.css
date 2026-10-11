@@ -12,6 +12,213 @@
   --pad: clamp(1.25rem, 4vw, 4.5rem);
 }
 
+/* Stock-chart career timeline */
+.market-timeline {
+  position: relative;
+  background: #101b16;
+  color: #f5f5ed;
+  overflow: hidden;
+}
+
+.market-timeline-shell {
+  width: min(100%, var(--max));
+  margin: 0 auto;
+  padding: 8rem var(--pad) 0;
+}
+
+.market-timeline-heading {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.42fr) minmax(0, 1fr);
+  gap: clamp(2rem, 7vw, 8rem);
+  align-items: end;
+  margin-bottom: 4rem;
+}
+
+.market-timeline .section-kicker { color: #94b6a1; }
+
+.market-timeline-heading h2 {
+  max-width: 700px;
+  margin: 0;
+  color: #f5f5ed;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-weight: 520;
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+}
+
+.market-timeline-heading h2 em {
+  color: #8bd4a8;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+}
+
+.market-timeline-heading p:last-child {
+  max-width: 430px;
+  margin: 1.5rem 0 0;
+  color: #b8c8bc;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.market-timeline-scroll {
+  height: 235vh;
+}
+
+.market-timeline-sticky {
+  position: sticky;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  min-height: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 3rem;
+}
+
+.market-chart-panel {
+  border: 1px solid rgba(203, 234, 212, 0.23);
+  background: rgba(2, 10, 6, 0.38);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.24);
+}
+
+.market-chart-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid rgba(203, 234, 212, 0.16);
+  color: #9ebaaa;
+  font-size: 0.64rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.market-chart-readout b { color: #8bd4a8; }
+
+.market-chart-viewport {
+  position: relative;
+  height: clamp(260px, 42vh, 410px);
+  overflow: hidden;
+}
+
+.market-chart-stage {
+  position: relative;
+  width: 150%;
+  height: 100%;
+  transform: translateX(calc(var(--career-progress, 0) * -33.333%));
+  transition: transform 80ms linear;
+}
+
+.career-chart {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.career-grid line { stroke: rgba(203, 234, 212, 0.13); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.career-area { fill: url(#careerFill); }
+.career-line { fill: none; stroke: #8bd4a8; stroke-width: 3; vector-effect: non-scaling-stroke; }
+
+.career-points { position: absolute; inset: 0; }
+
+.career-point {
+  position: absolute;
+  left: var(--point-x);
+  top: var(--point-y);
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(245, 245, 237, 0.64);
+  border-radius: 50%;
+  background: #14271c;
+  color: #f5f5ed;
+  cursor: pointer;
+  font-size: 0.63rem;
+  font-weight: 700;
+  transform: translate(-50%, -50%);
+  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.career-point::before {
+  position: absolute;
+  inset: -0.45rem;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  content: "";
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.career-point:hover,
+.career-point:focus-visible,
+.career-point.active {
+  border-color: #8bd4a8;
+  background: #8bd4a8;
+  color: #101b16;
+  box-shadow: 0 0 0 7px rgba(139, 212, 168, 0.13), 0 0 30px rgba(139, 212, 168, 0.48);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.career-point.active::before { border-color: rgba(139, 212, 168, 0.38); transform: scale(1.16); }
+
+.career-years {
+  position: absolute;
+  right: 0;
+  bottom: 1rem;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  color: #81988a;
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+}
+
+.career-detail {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.25rem 1.15rem 1.35rem;
+  border-top: 1px solid rgba(203, 234, 212, 0.16);
+}
+
+.career-detail div { display: flex; gap: 0.8rem; align-items: baseline; }
+.career-detail-year { color: #8bd4a8; font-size: 0.69rem; font-weight: 700; letter-spacing: 0.1em; }
+.career-detail strong { font-size: 1rem; font-weight: 600; }
+.career-detail p { margin: 0; color: #b8c8bc; font-size: 0.86rem; line-height: 1.45; }
+.career-detail-tag { color: #8bd4a8; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-align: right; }
+
+.market-timeline-cue {
+  margin: 1rem 0 0;
+  color: #91aa99;
+  font-size: 0.66rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.market-timeline-cue span { display: inline-block; margin-left: 0.45rem; color: #8bd4a8; font-size: 1.1rem; }
+
+@media (max-width: 700px) {
+  .market-timeline-shell { padding-top: 5rem; }
+  .market-timeline-heading { display: block; margin-bottom: 2.5rem; }
+  .market-timeline-heading h2 { margin-top: 1rem; font-size: clamp(2.7rem, 13vw, 4rem); }
+  .market-timeline-scroll { height: auto; }
+  .market-timeline-sticky { position: relative; top: auto; min-height: 0; padding-bottom: 4rem; }
+  .market-chart-top { flex-wrap: wrap; }
+  .market-chart-top span:nth-child(2) { display: none; }
+  .market-chart-viewport { height: 300px; }
+  .market-chart-stage { width: 190%; transform: none; }
+  .career-point { width: 2rem; height: 2rem; }
+  .career-detail { grid-template-columns: 1fr; gap: 0.45rem; }
+  .career-detail-tag { text-align: left; }
+  .market-timeline-cue { text-align: left; }
+}
+
 * {
   box-sizing: border-box;
 }

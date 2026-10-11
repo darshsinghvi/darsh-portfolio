@@ -27,6 +27,14 @@ const signalPath = document.querySelector(".terminal-signal-line");
 const signalCrossLine = document.querySelector(".signal-cross-line");
 const signalCrossDot = document.querySelector(".signal-cross-dot");
 const signalReadout = document.querySelector(".signal-readout strong");
+const careerTimeline = document.querySelector(".market-timeline");
+const careerTimelineStage = document.querySelector(".market-chart-stage");
+const careerTimelinePoints = [...document.querySelectorAll(".career-point")];
+const careerTimelineReadout = document.querySelector(".market-chart-readout b");
+const careerDetailYear = document.querySelector(".career-detail-year");
+const careerDetailTitle = document.querySelector(".career-detail strong");
+const careerDetailCopy = document.querySelector(".career-detail p");
+const careerDetailTag = document.querySelector(".career-detail-tag");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = window.matchMedia("(pointer: fine)").matches;
 
@@ -37,6 +45,7 @@ let activeStoryStep = 0;
 let activeHeroScene = 0;
 let activeF1Chapter = 0;
 let f1TrackLength = 0;
+let activeCareerEvent = "fbla";
 let targetScroll = window.scrollY;
 let smoothScroll = window.scrollY;
 let motionFrame = null;
@@ -126,6 +135,76 @@ function updateEducation(scrollTop) {
   });
 }
 
+const careerEvents = {
+  fbla: {
+    year: "2022",
+    title: "FBLA National Champion",
+    copy: "Placed first of approximately 500 teams in Financial Statement Analysis and became the first student in school history to win a national title.",
+    tag: "ANALYSIS / LEADERSHIP"
+  },
+  catalyst: {
+    year: "2023",
+    title: "Catalyst Business Advising",
+    copy: "Built a 40+ member team providing pro bono financial modeling and pitch-deck consulting to 15+ small businesses across four countries.",
+    tag: "ADVISORY / SCALE"
+  },
+  research: {
+    year: "2024",
+    title: "Financial Machine Learning Research",
+    copy: "Benchmarked five language models for financial sentiment classification and prepared research for submission with a Northeastern professor.",
+    tag: "RESEARCH / NLP"
+  },
+  baymont: {
+    year: "2024",
+    title: "Baymont Pricing and ROI",
+    copy: "Built pricing models from seasonal demand and competitor positioning, contributing to a 9.3% increase in room revenue and analyzing $520K in investments.",
+    tag: "PRICING / CAPITAL"
+  },
+  mscf: {
+    year: "2026",
+    title: "CMU MSCF Trading Competition",
+    copy: "Built and adapted an automated bot for two real-time simulated markets, earning Most Active Trader and Largest Comeback awards.",
+    tag: "EXECUTION / MARKETS"
+  },
+  sig: {
+    year: "2026",
+    title: "Susquehanna Discovery Program",
+    copy: "Studied probability, market-making frameworks, execution, and risk through a first-year quantitative trading program.",
+    tag: "PROBABILITY / TRADING"
+  }
+};
+
+function selectCareerEvent(eventKey) {
+  const event = careerEvents[eventKey];
+  if (!event) return;
+  activeCareerEvent = eventKey;
+  careerTimelinePoints.forEach((point) => {
+    const active = point.dataset.event === eventKey;
+    point.classList.toggle("active", active);
+    point.setAttribute("aria-pressed", String(active));
+  });
+  if (careerDetailYear) careerDetailYear.textContent = event.year;
+  if (careerDetailTitle) careerDetailTitle.textContent = event.title;
+  if (careerDetailCopy) careerDetailCopy.textContent = event.copy;
+  if (careerDetailTag) careerDetailTag.textContent = event.tag;
+}
+
+function updateCareerTimeline(scrollTop) {
+  if (!careerTimeline || !careerTimelineStage) return;
+  if (reducedMotion || window.innerWidth <= 700) return;
+
+  const sectionTop = careerTimeline.getBoundingClientRect().top + window.scrollY;
+  const scrollable = Math.max(careerTimeline.offsetHeight - window.innerHeight, 1);
+  const progress = clamp((scrollTop - sectionTop) / scrollable);
+  const eventPosition = progress * (careerTimelinePoints.length - 1);
+  const nextEventIndex = Math.round(eventPosition);
+  const nextEvent = careerTimelinePoints[nextEventIndex];
+
+  careerTimeline.style.setProperty("--career-progress", progress.toFixed(4));
+  if (careerTimelineReadout) careerTimelineReadout.textContent = String(nextEventIndex + 1).padStart(2, "0");
+  if (nextEvent && nextEvent.dataset.event !== activeCareerEvent) selectCareerEvent(nextEvent.dataset.event);
+}
+
 function updateF1(scrollTop) {
   if (!f1Scroll || !f1TrackPath) return;
 
@@ -181,6 +260,7 @@ function updateMotion(scrollTop = smoothScroll) {
 
   updateHero(scrollTop);
   updateEducation(scrollTop);
+  updateCareerTimeline(scrollTop);
   updateStory(scrollTop);
   updateF1(scrollTop);
 
@@ -275,6 +355,11 @@ const revealObserver = new IntersectionObserver(
 );
 
 document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+
+careerTimelinePoints.forEach((point) => {
+  point.addEventListener("click", () => selectCareerEvent(point.dataset.event));
+});
+selectCareerEvent(activeCareerEvent);
 
 copyButton.addEventListener("click", async () => {
   const email = copyButton.dataset.email;

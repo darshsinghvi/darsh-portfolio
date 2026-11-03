@@ -33,6 +33,7 @@ function lightsOut() {
   statusText.textContent = 'Lights out and away we go';
   body.classList.remove('is-starting');
   body.classList.add('is-go');
+  document.querySelector('.c-line').style.strokeDashoffset = 0;
   driveHeroLap();
 }
 
@@ -67,6 +68,62 @@ sectorPaths.forEach((p, i) => {
   p.style.strokeDasharray = `${len} ${heroLen}`;
   p.style.strokeDashoffset = -a;
 });
+// 3D: extrude the track, add upright pins, tilt with the pointer
+const scene = document.querySelector('.circuit-scene');
+const trackD = circuitLine.getAttribute('d');
+const SVGNS = 'http://www.w3.org/2000/svg';
+const extrude = document.querySelector('.c-extrude');
+const VB = { x: 20, y: 30, w: 450, h: 258 };
+const LAYERS = 12;
+for (let i = -1; i < LAYERS; i++) {
+  const svg = document.createElementNS(SVGNS, 'svg');
+  svg.setAttribute('viewBox', `${VB.x} ${VB.y} ${VB.w} ${VB.h}`);
+  const p = document.createElementNS(SVGNS, 'path');
+  p.setAttribute('d', trackD);
+  if (i < 0) p.setAttribute('class', 'c-shadow');
+  else {
+    const t = i / (LAYERS - 1);
+    const c = Math.round(20 + t * 22);
+    p.style.stroke = `rgb(${c}, ${c + 1}, ${c + 5})`;
+    svg.style.transform = `translateZ(${(i * 16) / LAYERS}px)`;
+  }
+  svg.appendChild(p);
+  extrude.appendChild(svg);
+}
+
+const pinLayer = document.querySelector('.c-pins');
+function makePin(x, y, label, kind) {
+  const pin = document.createElement('div');
+  pin.className = `pin pin-${kind}`;
+  pin.innerHTML = `<div class="pin-body"><span class="pin-label">${label}</span><span class="pin-stem"></span></div>`;
+  placePin(pin, x, y);
+  pinLayer.appendChild(pin);
+  return pin;
+}
+function placePin(pin, x, y) {
+  pin.style.left = `${((x - VB.x) / VB.w) * 100}%`;
+  pin.style.top = `${((y - VB.y) / VB.h) * 100}%`;
+}
+document.querySelectorAll('.c-turns text').forEach((t) => makePin(+t.getAttribute('x'), +t.getAttribute('y') + 4, `T${t.textContent}`, 'turn'));
+const carPin = makePin(100, 250, 'DS', 'car');
+
+const circuitCard = document.querySelector('.circuit');
+if (!reducedMotion && window.matchMedia('(hover: hover)').matches) {
+  circuitCard.addEventListener('pointermove', (e) => {
+    if (!body.classList.contains('is-go')) return;
+    const r = circuitCard.getBoundingClientRect();
+    const nx = (e.clientX - r.left) / r.width - 0.5;
+    const ny = (e.clientY - r.top) / r.height - 0.5;
+    scene.classList.add('tracking');
+    scene.style.setProperty('--rx', `${52 - ny * 16}deg`);
+    scene.style.setProperty('--rz', `${-16 + nx * 24}deg`);
+  });
+  circuitCard.addEventListener('pointerleave', () => {
+    scene.style.removeProperty('--rx');
+    scene.style.removeProperty('--rz');
+  });
+}
+
 // Sector boundary ticks
 const tickGroup = document.querySelector('.c-ticks');
 splits.slice(1, 4).forEach((f) => {
@@ -97,6 +154,7 @@ function driveHeroLap() {
     const f = ease(t);
     const pt = circuitLine.getPointAtLength(f * heroLen);
     heroCar.setAttribute('cx', pt.x); heroCar.setAttribute('cy', pt.y);
+    placePin(carPin, pt.x, pt.y);
     const sec = splits.findIndex((x, i) => f >= x && f < splits[i + 1]) + 1;
     lightSector(t < 1 ? sec : 0);
     lapLabel.textContent = t < 1 ? `Sector ${sec}` : 'Pick a sector';

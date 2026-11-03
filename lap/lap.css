@@ -41,7 +41,7 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
 
 /* Shared content type */
 .card, .sheet, .finale { --pad: 24px; }
-:is(.card, .sheet, .finale) .card-tag, .sheet-tag { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); }
+:is(.card, .sheet, .finale, .pop) .card-tag, .sheet-tag { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); }
 .sheet-tag { justify-content: flex-start; gap: 8px; }
 .sheet-tag b { padding: 2px 6px; background: var(--c, var(--yellow)); color: #111; border-radius: 4px; font-weight: 500; }
 .card.hero h1 { margin-top: 16px; font-size: clamp(44px, 6vw, 64px); font-weight: 700; font-stretch: 125%; letter-spacing: -.03em; line-height: .95; text-transform: uppercase; }
@@ -86,6 +86,17 @@ dd { color: var(--text-2); }
 .hero-lights { display: flex; gap: 6px; }
 .hero-lights i { width: 12px; height: 12px; border-radius: 50%; background: #2a1412; border: 1px solid rgba(255, 59, 47, .25); transition: background-color .08s linear, box-shadow .08s linear; }
 .hero-lights i.on { background: #ff3b2f; border-color: #ff3b2f; }
+
+/* Pop-ups during the lap */
+.pops { position: fixed; z-index: 5; left: clamp(16px, 4vw, 48px); top: 50%; width: min(400px, calc(100vw - 32px)); pointer-events: none; }
+.pop { position: absolute; left: 0; top: 0; width: 100%; padding: 20px 24px 24px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 24px 64px rgba(0, 0, 0, .45); backdrop-filter: blur(14px); opacity: 0; visibility: hidden; transform: translateY(-50%) translateX(-32px) scale(.98); transition: opacity .3s var(--ease), transform .5s var(--ease), visibility .3s; }
+.pop.on { opacity: 1; visibility: visible; transform: translateY(-50%); pointer-events: auto; transition-delay: .12s; }
+.pop .card-tag { margin-bottom: 12px; }
+.pop .card-tag span:first-child { color: var(--text-2); }
+.pop h3 { font-size: 21px; font-weight: 600; font-stretch: 108%; line-height: 1.2; }
+.pop .line { margin-top: 12px; color: var(--text-2); font-size: 14px; }
+.pop .chips { margin-top: 12px; }
+.pop .actions { margin-top: 16px; }
 
 /* Top bar buttons follow the phase */
 .nav-btn { height: 36px; padding: 0 12px; border: 0; background: none; color: var(--text-2); font: inherit; font-size: 14px; cursor: pointer; border-radius: 8px; transition: color .15s var(--ease); }
@@ -176,6 +187,11 @@ body:is([data-phase="finale"], [data-phase="explore"]) :is(.hud, .mini) { opacit
   .card.hero h1 { font-size: 44px; }
   .card .body { font-size: 14px; }
   .mini { width: 92px; top: 72px; padding: 6px; }
+  .pops { top: auto; bottom: 96px; left: 12px; right: 12px; width: auto; }
+  .pop { top: auto; bottom: 0; padding: 16px 18px 18px; transform: translateY(16px); }
+  .pop.on { transform: none; }
+  .pop h3 { font-size: 18px; }
+  .pop .line { font-size: 13px; }
   .nav-link { display: none; }
   .topnav { gap: 4px; }
   .hud { bottom: 12px; padding: 10px 12px; }
@@ -199,6 +215,6 @@ body:is([data-phase="finale"], [data-phase="explore"]) :is(.hud, .mini) { opacit
   dd { margin-bottom: 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card, .sheet, .finale { transition: opacity .2s linear, visibility .2s; }
+  .card, .sheet, .finale, .pop { transition: opacity .2s linear, visibility .2s; }
   .podium .step-block, .podium .step-card { transition: none; }
 }

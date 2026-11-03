@@ -13,7 +13,7 @@ const PODIUM = `
       </div>`;
 
 const SECTIONS = [
-  { id: 'education', s: 'S1', name: 'Education', sub: 'On the grid', color: '#ff3b2f', range: [0, 0.3], pin: 0.15, html: `
+  { id: 'education', s: 'S1', name: 'Education', sub: 'On the grid', color: '#ff3b2f', range: [0, 0.17], pin: 0.085, html: `
       <div class="entry">
         <h3>Carnegie Mellon University</h3>
         <p class="meta">B.S. in Business, additional major in Mathematics · Expected May 2030</p>
@@ -24,7 +24,7 @@ const SECTIONS = [
         <p class="meta">Valedictorian · 4.30 weighted, 4.00 unweighted · June 2026</p>
         <dl><dt>Coursework</dt><dd>Multivariable Calculus, Calculus II, AP Statistics, AP Computer Science A, AP Micro and Macroeconomics</dd><dt>Activities</dt><dd>Marching Band, Bring a Smile Club, Science Olympiad, FBLA, Finance Club, NHS</dd></dl>
       </div>` },
-  { id: 'experience', s: 'S2', name: 'Experience', sub: 'Stints', color: '#ffd23f', range: [0.3, 0.54], pin: 0.42, html: `
+  { id: 'experience', s: 'S2', name: 'Experience', sub: 'Stints', color: '#ffd23f', range: [0.17, 0.6], pin: 0.385, html: `
       <div class="entry">
         <h3><i class="tyre tyre-s">S</i>Introductory Finance Society</h3>
         <p class="meta">Trade pitch · Pittsburgh, PA · Oct 2026</p><span class="result">P1 · 1st place</span>
@@ -66,13 +66,13 @@ const SECTIONS = [
         <p class="meta">Founder and president · Philadelphia, PA · 2023–Present</p><span class="result">15+ businesses · 4 countries</span>
         <ul class="points"><li>Manage a 40+ member team providing pro bono financial modeling and pitch-deck consulting.</li><li>Deliver client analyses and presentations from scoping through final recommendations.</li></ul>
       </div>` },
-  { id: 'awards', s: 'S3', name: 'Awards', sub: 'Podiums', color: '#b47cff', range: [0.54, 0.79], pin: 0.665, html: `
+  { id: 'awards', s: 'S3', name: 'Awards', sub: 'Podiums', color: '#b47cff', range: [0.6, 0.78], pin: 0.69, html: `
       ${PODIUM}
       <ul class="tower">
         <li><span class="pos">4</span><span>IFS Trade Pitch<small>Long MOS / short CF</small></span><span class="gap purple">1st</span></li>
         <li><span class="pos">5</span><span>Varsity Ultimate Frisbee<small>Best Defensive Player</small></span><span class="gap green">1 / 60</span></li>
       </ul>` },
-  { id: 'about', s: 'S4', name: 'About', sub: 'In the paddock', color: '#3fd982', range: [0.79, 1], pin: 0.895, html: `
+  { id: 'about', s: 'S4', name: 'About', sub: 'In the paddock', color: '#3fd982', range: [0.78, 1], pin: 0.89, html: `
       <p class="body">I like problems with a little uncertainty in them. That shows up in the way I work, and in what I do away from a screen.</p>
       <p class="group mono">Away from the desk</p>
       <ul class="chips"><li class="hot">Formula 1</li><li>NFL</li><li>Running</li><li>Ping pong</li><li>Tennis</li><li>Soccer</li><li>Poker</li></ul>
@@ -82,7 +82,27 @@ const SECTIONS = [
       <p class="body">Have a good question, a trade idea or an F1 take? Send it my way.</p>
       <div class="actions"><a class="button" href="mailto:contact.darshsinghvi@gmail.com">Email me</a><a class="button ghost" href="${RESUME}" target="_blank" rel="noreferrer">Resume</a><a class="button ghost" href="https://www.linkedin.com/in/darshsinghvi" target="_blank" rel="noreferrer">LinkedIn</a></div>` },
 ];
-const BOARDS = [[0.0, 'EDUCATION'], [0.3, 'EXPERIENCE'], [0.54, 'AWARDS'], [0.79, 'ABOUT'], [0.93, 'CONTACT']];
+const BOARDS = [[0.0, 'EDUCATION'], [0.17, 'EXPERIENCE'], [0.6, 'AWARDS'], [0.78, 'ABOUT'], [0.9, 'CONTACT']];
+
+/* Pop-ups that appear as the car reaches each part of the story */
+const POPS = [
+  { f: 0.015, tag: 'S1 · Education', html: `<h3>Carnegie Mellon University</h3><p class="meta">B.S. Business, additional major in Mathematics · Expected May 2030</p><p class="line">CMU Quant Club, Math Club, Scottie Ventures, Poker Club</p>` },
+  { f: 0.09, tag: 'S1 · Education', html: `<h3>Garnet Valley High School</h3><p class="meta">Valedictorian · 4.30 weighted, 4.00 unweighted · June 2026</p><p class="line">Marching Band, Science Olympiad, FBLA, Finance Club, NHS</p>` },
+  { f: 0.175, tag: 'S2 · Experience', html: `<h3><i class="tyre tyre-s">S</i>Introductory Finance Society</h3><p class="meta">Trade pitch · Oct 2026</p><span class="result">P1 · 1st place</span><p class="line">Long Mosaic / short CF options spreads, priced with Black-Scholes and 400,000 Monte Carlo runs.</p>` },
+  { f: 0.23, tag: 'S2 · Experience', html: `<h3><i class="tyre tyre-s">S</i>CMU MSCF Trading Competition</h3><p class="meta">Quantitative trading competitor · Sep 2026</p><span class="result">1st / 170+ · Most Active Trader</span><p class="line">Built a trading bot for two simulated markets with execution and risk controls.</p>` },
+  { f: 0.285, tag: 'S2 · Experience', html: `<h3><i class="tyre tyre-s">S</i>Susquehanna International Group</h3><p class="meta">Quantitative Trading Discovery Program · 2026</p><span class="result">Selected · first-year cohort</span><p class="line">Probability, expected value and market structure at a global market maker.</p>` },
+  { f: 0.34, tag: 'S2 · Experience', html: `<h3><i class="tyre tyre-m">M</i>AI and ML Research</h3><p class="meta">Lead researcher · Northeastern University · 2024–2025</p><span class="result">5 models benchmarked</span><p class="line">FinBERT, FinGPT, GPT, RoBERTa and LLaMA on financial sentiment.</p>` },
+  { f: 0.395, tag: 'S2 · Experience', html: `<h3><i class="tyre tyre-m">M</i>Baymont by Wyndham</h3><p class="meta">Finance and operations intern · 2024–2025</p><span class="result">+9.3% room revenue</span><p class="line">Dynamic pricing models and ROI analyses behind $520,000 of investment decisions.</p>` },
+  { f: 0.45, tag: 'S2 · Experience', html: `<h3><i class="tyre tyre-m">M</i>Venture Starters and GoAhead Ventures</h3><p class="meta">Venture capital intern · 2022–Present</p><span class="result">~100 pitches screened</span><p class="line">Market potential, competitive position and key risks, summarized for senior review.</p>` },
+  { f: 0.5, tag: 'S2 · Leadership', html: `<h3><i class="tyre tyre-h">H</i>Future Business Leaders of America</h3><p class="meta">Region president · 2022–Present</p><span class="result">15+ schools · 1,000+ members</span><p class="line">Ran a 700+ attendee conference and raised $2,000+ in sponsorships.</p>` },
+  { f: 0.55, tag: 'S2 · Leadership', html: `<h3><i class="tyre tyre-h">H</i>Catalyst Business Advising Service</h3><p class="meta">Founder and president · 2023–Present</p><span class="result">15+ businesses · 4 countries</span><p class="line">A 40+ member team doing pro bono financial modeling and pitch decks.</p>` },
+  { f: 0.605, tag: 'S3 · Awards', html: `<h3>On the podium</h3><ul class="tower">
+        <li><span class="pos">1</span><span>FBLA National Champion<small>Financial Statement Analysis, 2025</small></span><span class="gap purple">1st / ~500</span></li>
+        <li><span class="pos">2</span><span>CMU MSCF Trading<small>Most Active Trader</small></span><span class="gap purple">1st / 170+</span></li>
+        <li><span class="pos">3</span><span>Science Olympiad<small>UPenn, Princeton, PA states</small></span><span class="gap green">1st, 1st, 3rd</span></li></ul>` },
+  { f: 0.785, tag: 'S4 · About', html: `<h3>In the paddock</h3><p class="line">I like problems with a little uncertainty in them.</p><ul class="chips"><li class="hot">Formula 1</li><li>NFL</li><li>Running</li><li>Ping pong</li><li>Tennis</li><li>Poker</li></ul><ul class="chips"><li>Python</li><li>pandas</li><li>Java</li><li>C++</li><li>Bloomberg</li></ul>` },
+  { f: 0.9, tag: 'Box, box', html: `<h3>Let’s talk</h3><p class="line">A good question, a trade idea or an F1 take. Send it my way.</p><div class="actions"><a class="button" href="mailto:contact.darshsinghvi@gmail.com">Email me</a><a class="button ghost" href="https://www.linkedin.com/in/darshsinghvi" target="_blank" rel="noreferrer">LinkedIn</a></div>` },
+];
 const CORNERS = [[0.042, 'Abbey'], [0.133, 'Farm'], [0.15, 'Village'], [0.2, 'The Loop'], [0.23, 'Aintree'], [0.365, 'Brooklands'], [0.385, 'Luffield'], [0.465, 'Woodcote'], [0.592, 'Copse'], [0.627, 'Maggotts'], [0.67, 'Becketts'], [0.698, 'Chapel'], [0.852, 'Stowe'], [0.885, 'Vale'], [0.945, 'Club'], [1.042, 'Abbey']];
 const sectionAt = (t) => SECTIONS.find((s) => s.range && t >= s.range[0] && t < s.range[1]) || SECTIONS[0];
 
@@ -109,6 +129,21 @@ const replayBtn = $('.replay');
 legendEl.innerHTML = SECTIONS.map((s) => `<button type="button" data-id="${s.id}" style="--c:${s.color}"><span class="mono">${s.s}</span>${s.name}</button>`).join('');
 pinsEl.innerHTML = SECTIONS.map((s) => `<button type="button" tabindex="-1" class="pin" data-id="${s.id}" style="--c:${s.color}"><span class="mono">${s.s}</span>${s.name}</button>`).join('');
 const pinEls = [...pinsEl.children];
+const popsEl = $('.pops');
+const popEls = POPS.map((c) => {
+  const el = document.createElement('article');
+  el.className = 'pop';
+  el.setAttribute('aria-hidden', 'true');
+  el.innerHTML = `<p class="card-tag mono"><span>${c.tag}</span><span class="pop-corner"></span></p>${c.html}`;
+  popsEl.appendChild(el);
+  return el;
+});
+let activePop = -1;
+function showPop(i) {
+  if (i === activePop) return;
+  popEls.forEach((el, k) => { el.classList.toggle('on', k === i); el.setAttribute('aria-hidden', String(k !== i)); });
+  activePop = i;
+}
 
 /* ---------- Renderer ---------- */
 const canvas = document.getElementById('scene');
@@ -141,7 +176,17 @@ Object.assign(sun.shadow.camera, { left: -30, right: 30, top: 30, bottom: -30, n
 scene.add(sun, sun.target);
 
 /* ---------- Track ---------- */
-const curve = new THREE.CatmullRomCurve3(TRACK.map(([x, z]) => new THREE.Vector3(x, 0, z)), true, 'centripetal');
+const curve = (() => {
+  const rough = new THREE.CatmullRomCurve3(TRACK.map(([x, z]) => new THREE.Vector3(x, 0, z)), true, 'centripetal');
+  let pts = rough.getSpacedPoints(480); pts.pop();
+  for (let pass = 0; pass < 4; pass++) {
+    pts = pts.map((p, i) => {
+      const a = pts[(i - 1 + pts.length) % pts.length]; const b = pts[(i + 1) % pts.length];
+      return new THREE.Vector3((a.x + 2 * p.x + b.x) / 4, 0, (a.z + 2 * p.z + b.z) / 4);
+    });
+  }
+  return new THREE.CatmullRomCurve3(pts, true, 'catmullrom', 0.5);
+})();
 const LAP = curve.getLength();
 const N = 2400;
 const frames = [];
@@ -381,18 +426,18 @@ scene.add(car);
 const miniCar = document.querySelector('.mini-car');
 
 /* ---------- Speed profile: slow for corners, fast on the straights ---------- */
-const LAP_SECONDS = 24;
+const LAP_SECONDS = 46;
 const profile = (() => {
   const raw = new Float32Array(N);
   for (let i = 0; i < N; i++) {
     let m = 0;
     for (let j = -8; j <= 45; j++) m = Math.max(m, bend[(i + j + N) % N]);
-    raw[i] = THREE.MathUtils.clamp(1 - m * 1.4, 0.38, 1);
+    raw[i] = THREE.MathUtils.clamp(1 - m * 1.2, 0.45, 1);
   }
   let out = raw;
-  for (let pass = 0; pass < 3; pass++) {
+  for (let pass = 0; pass < 5; pass++) {
     const o = new Float32Array(N);
-    for (let i = 0; i < N; i++) { let s = 0; for (let j = -15; j <= 15; j++) s += out[(i + j + N) % N]; o[i] = s / 31; }
+    for (let i = 0; i < N; i++) { let s = 0; for (let j = -24; j <= 24; j++) s += out[(i + j + N) % N]; o[i] = s / 49; }
     out = o;
   }
   return out;
@@ -465,7 +510,7 @@ const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 let offX = 0; let offY = 0;
 function wantOffset() {
   const w = window.innerWidth; const h = window.innerHeight;
-  const panel = phase === 'grid' || open;
+  const panel = phase === 'grid' || open || (phase === 'race' && activePop >= 0);
   if (!panel) return [0, 0];
   return mobile ? [0, h * (open ? 0.26 : 0.2)] : [-w * (open ? 0.17 : 0.14), 0];
 }
@@ -537,6 +582,7 @@ window.addEventListener('keydown', (e) => {
 
 /* ---------- Loop ---------- */
 let lastTime = performance.now();
+const headTarget = new THREE.Object3D(); let firstFrame = true;
 const proj = new THREE.Vector3();
 const pinAnchors = SECTIONS.map((s) => frameAt(s.pin).p);
 if (reducedMotion) { setLights(0); heroEl.classList.remove('on'); go('finale'); setCam('orbit', 0); }
@@ -554,7 +600,7 @@ function tick(now) {
     if (n === 5 && !lightsOutAt) lightsOutAt = phaseT + 0.6 + Math.random() * 0.9;
     if (lightsOutAt && phaseT >= lightsOutAt) { lightsOutAt = 0; setLights(0); go('race'); }
   } else if (phase === 'race') {
-    v = Math.min(profAt(lapT) * VSCALE, v + 75 * dt);
+    { const want = profAt(lapT) * VSCALE; v += THREE.MathUtils.clamp(want - v, -60 * dt, 40 * dt); }
     lapT += (v * dt) / LAP; lapTime += dt;
     if (lapT >= 1) { completed = true; go('finish'); }
   } else if (phase === 'finish') {
@@ -566,9 +612,13 @@ function tick(now) {
   // Car
   const { p, tan } = frameAt(lapT);
   car.position.copy(p);
-  car.lookAt(p.clone().add(tan));
+  headTarget.position.copy(p);
+  headTarget.lookAt(p.clone().add(frameAt(lapT + 6 / LAP).tan.add(tan).normalize()));
+  if (firstFrame || reducedMotion) car.quaternion.copy(headTarget.quaternion);
+  else car.quaternion.slerp(headTarget.quaternion, 1 - Math.exp(-dt * 10));
+  firstFrame = false;
   wheels.forEach(({ wheel, r }) => { wheel.rotation.x += (v * dt) / (r * 1.6); });
-  camTan.lerp(tan, Math.min(1, dt * 8)).normalize();
+  camTan.lerp(new THREE.Vector3(0, 0, 1).applyQuaternion(car.quaternion), 1 - Math.exp(-dt * 4)).normalize();
 
   // Camera
   const aerial = phase === 'finish' || phase === 'finale' || phase === 'explore';
@@ -609,6 +659,13 @@ function tick(now) {
     const [mx, my] = window.__mini(p);
     miniCar.setAttribute('cx', mx.toFixed(1)); miniCar.setAttribute('cy', my.toFixed(1));
   }
+
+  // Pop-ups: the latest checkpoint the car has passed
+  if (phase === 'race') {
+    let idx = -1; POPS.forEach((c, i) => { if (lapT >= c.f) idx = i; });
+    showPop(idx);
+    if (idx >= 0) { const c = CORNERS.find((k) => Math.abs(k[0] - lapT) < 0.02); popEls[idx].querySelector('.pop-corner').textContent = c ? c[1] : ''; }
+  } else if (activePop !== -1) showPop(-1);
 
   // Pins follow their spot on the circuit
   if (phase === 'explore') {

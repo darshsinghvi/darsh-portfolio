@@ -4,100 +4,232 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Darsh Singhvi studies business and mathematics at Carnegie Mellon University, with a focus on quantitative trading and markets.">
-  <meta name="theme-color" content="#f7f6f2">
+  <meta name="theme-color" content="#0c0d0f">
   <title>Darsh Singhvi</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=2026-11">
-  <script src="script.js?v=2026-11" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="styles.css?v=race-1">
+  <script src="script.js?v=race-1" defer></script>
 </head>
-<body>
+<body class="is-starting">
   <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="site-header">
-    <a class="wordmark" href="#top" aria-label="Darsh Singhvi, home">Darsh Singhvi</a>
+    <a class="wordmark" href="#top" aria-label="Darsh Singhvi, home"><span class="wordmark-num">DS</span>Darsh Singhvi</a>
     <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-      <a href="#education">Education</a><a href="#experience">Experience</a><a href="#awards">Awards</a><a href="#about">About</a>
+      <a href="#education">Grid</a><a href="#experience">Stints</a><a href="#awards">Podiums</a><a href="#about">Paddock</a>
       <a class="nav-resume" href="assets/Darsh_Singhvi_Resume.pdf" target="_blank" rel="noreferrer">Resume</a>
     </nav>
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
   </header>
 
+  <!-- Lap minimap: the car drives one lap as you scroll the page -->
+  <aside class="minimap" aria-hidden="true">
+    <svg viewBox="0 0 400 240" class="minimap-svg">
+      <path class="track-base" d="M70 200 L262 200 C306 200 336 180 342 148 C348 116 326 94 296 94 L254 94 C226 94 216 72 232 52 C248 32 232 18 202 18 L122 18 C92 18 76 40 86 66 L100 104 C108 126 90 140 70 140 C44 140 30 160 36 180 C40 194 52 200 70 200 Z"/>
+      <path class="track-done" d="M70 200 L262 200 C306 200 336 180 342 148 C348 116 326 94 296 94 L254 94 C226 94 216 72 232 52 C248 32 232 18 202 18 L122 18 C92 18 76 40 86 66 L100 104 C108 126 90 140 70 140 C44 140 30 160 36 180 C40 194 52 200 70 200 Z"/>
+      <line class="track-start" x1="70" y1="190" x2="70" y2="210"/>
+      <circle class="track-car" r="9" cx="70" cy="200"/>
+    </svg>
+    <div class="minimap-info">
+      <span class="minimap-sector">S0</span>
+      <span class="minimap-label">Lights out</span>
+    </div>
+    <ol class="sector-bars"><li data-s="1"></li><li data-s="2"></li><li data-s="3"></li><li data-s="4"></li></ol>
+  </aside>
+
   <main id="main">
+    <!-- Hero: start lights -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-inner">
-        <div class="hero-text reveal">
-          <h1 id="hero-title">Darsh Singhvi</h1>
+        <div class="hero-text">
+          <div class="gantry" aria-hidden="true">
+            <span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span>
+          </div>
+          <p class="hero-tag mono"><span class="status-text">Lights out and away we go</span></p>
+          <h1 id="hero-title"><span class="line">Darsh</span><span class="line">Singhvi</span></h1>
           <p class="hero-subtitle">Business and mathematics at Carnegie Mellon. I work on quantitative trading, options pricing and the models behind market decisions.</p>
           <div class="hero-links">
-            <a class="button" href="assets/Darsh_Singhvi_Resume.pdf" target="_blank" rel="noreferrer">View resume</a>
-            <a class="quiet-link" href="mailto:contact.darshsinghvi@gmail.com">Email me</a>
+            <a class="button" href="#education">Start the lap</a>
+            <a class="button button-ghost" href="assets/Darsh_Singhvi_Resume.pdf" target="_blank" rel="noreferrer">Resume</a>
           </div>
         </div>
-        <aside class="ledger reveal" aria-label="Recent results">
-          <div class="ledger-head"><span>Recent</span><span>Pittsburgh, PA</span></div>
-          <ol>
-            <li><span class="ledger-date">Oct 2026</span><span class="ledger-what">IFS trade pitch<small>Long MOS / short CF options spreads</small></span><span class="ledger-result">1st</span></li>
-            <li><span class="ledger-date">Sep 2026</span><span class="ledger-what">CMU MSCF trading competition<small>Most Active Trader, Largest Comeback</small></span><span class="ledger-result">1st / 170+</span></li>
-            <li><span class="ledger-date">2026</span><span class="ledger-what">SIG Discovery Program<small>Quantitative trading, first-year cohort</small></span><span class="ledger-result">Selected</span></li>
-            <li><span class="ledger-date">2025</span><span class="ledger-what">FBLA nationals<small>Financial Statement Analysis</small></span><span class="ledger-result">1st / ~500</span></li>
-          </ol>
-        </aside>
+
+        <figure class="hero-track" aria-hidden="true">
+          <svg viewBox="0 0 400 240">
+            <path class="ht-run" d="M70 200 L262 200 C306 200 336 180 342 148 C348 116 326 94 296 94 L254 94 C226 94 216 72 232 52 C248 32 232 18 202 18 L122 18 C92 18 76 40 86 66 L100 104 C108 126 90 140 70 140 C44 140 30 160 36 180 C40 194 52 200 70 200 Z"/>
+            <path class="ht-line" d="M70 200 L262 200 C306 200 336 180 342 148 C348 116 326 94 296 94 L254 94 C226 94 216 72 232 52 C248 32 232 18 202 18 L122 18 C92 18 76 40 86 66 L100 104 C108 126 90 140 70 140 C44 140 30 160 36 180 C40 194 52 200 70 200 Z"/>
+            <g class="ht-labels">
+              <text x="160" y="226">S1 Grid</text>
+              <text x="352" y="128">S2 Stints</text>
+              <text x="190" y="40">S3 Podiums</text>
+              <text x="0" y="128">S4 Paddock</text>
+            </g>
+          </svg>
+          <figcaption class="mono"><span>Circuit</span><span>Pittsburgh, PA</span><span>Class of 2030</span></figcaption>
+        </figure>
+      </div>
+      <p class="scroll-hint mono" aria-hidden="true">Scroll to drive</p>
+    </section>
+
+    <!-- S1: Education -->
+    <section class="panel panel-grid" id="education" data-sector="1" data-label="Grid · Education" aria-labelledby="education-title">
+      <div class="panel-inner">
+        <header class="panel-head">
+          <p class="mono sector-tag"><b>S1</b> Education</p>
+          <h2 id="education-title">On the grid</h2>
+          <p>Business gives me the context. Mathematics gives me the tools. I like the space where the two meet.</p>
+        </header>
+        <div class="grid-slots">
+          <article class="slot slot-p1">
+            <span class="slot-pos mono">P1</span>
+            <h3>Carnegie Mellon University</h3>
+            <p class="slot-sub">B.S. in Business, additional major in Mathematics</p>
+            <p class="slot-meta mono">Pittsburgh, PA · Expected May 2030</p>
+            <dl><dt>Coursework</dt><dd>Concepts of Mathematics, Matrices and Linear Transformations</dd><dt>Activities</dt><dd>CMU Quant Club, CMU Math Club, Scottie Ventures, Poker Club</dd></dl>
+          </article>
+          <article class="slot slot-p2">
+            <span class="slot-pos mono">P2</span>
+            <h3>Garnet Valley High School</h3>
+            <p class="slot-sub">Valedictorian · 4.30 weighted, 4.00 unweighted</p>
+            <p class="slot-meta mono">Garnet Valley, PA · June 2026</p>
+            <dl><dt>Coursework</dt><dd>Multivariable Calculus, Calculus II, AP Statistics, AP Computer Science A, AP Micro and Macroeconomics</dd><dt>Activities</dt><dd>Marching Band, Bring a Smile Club, Science Olympiad, FBLA, Finance Club, NHS</dd></dl>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="section education" id="education" aria-labelledby="education-title">
-      <div class="section-intro reveal"><h2 id="education-title">Education</h2><p>Business gives me the context. Mathematics gives me the tools. I like the space where the two meet.</p></div>
-      <div class="row-list">
-        <article class="row reveal"><div class="row-main"><h3>Carnegie Mellon University</h3><p>B.S. in Business, additional major in Mathematics</p></div><div class="row-meta"><span>Pittsburgh, PA</span><span>Expected May 2030</span></div><dl class="row-detail"><dt>Coursework</dt><dd>Concepts of Mathematics · Matrices and Linear Transformations</dd><dt>Activities</dt><dd>CMU Quant Club · CMU Math Club · Scottie Ventures · Poker Club</dd></dl></article>
-        <article class="row reveal"><div class="row-main"><h3>Garnet Valley High School</h3><p>Valedictorian</p></div><div class="row-meta"><span>Garnet Valley, PA</span><span>June 2026</span></div><dl class="row-detail"><dt>GPA</dt><dd>4.30 / 4.00 weighted · 4.00 / 4.00 unweighted</dd><dt>Coursework</dt><dd>Multivariable Calculus · Calculus II · AP Statistics · AP Computer Science A · AP Microeconomics · AP Macroeconomics</dd><dt>Activities</dt><dd>Marching Band · Bring a Smile Club · Science Olympiad · FBLA · Finance Club · National Honor Society</dd></dl></article>
+    <!-- S2: Experience, a pinned horizontal straight -->
+    <section class="straight" id="experience" data-sector="2" data-label="Stints · Experience" aria-labelledby="experience-title">
+      <div class="straight-sticky">
+        <div class="streaks" aria-hidden="true"><span></span><span></span><span></span></div>
+        <header class="panel-head straight-head">
+          <p class="mono sector-tag"><b>S2</b> Experience</p>
+          <h2 id="experience-title">Stints</h2>
+          <div class="compounds mono" aria-label="Tyre key">
+            <span><i class="tyre tyre-s">S</i>Trading</span>
+            <span><i class="tyre tyre-m">M</i>Research and analysis</span>
+            <span><i class="tyre tyre-h">H</i>Leadership</span>
+          </div>
+        </header>
+        <div class="straight-track">
+          <div class="stints">
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-s">S</i>Stint 01</span><span>Oct 2026</span></div>
+              <h3>Introductory Finance Society</h3>
+              <p class="stint-role">Trade pitch · Pittsburgh, PA</p>
+              <p class="stint-result mono">P1 · 1st place</p>
+              <ul><li>Pitched long Mosaic / short CF with June 2027 MOS $20/$27.50 bull call debit and CF $130/$150 bear call credit spreads.</li><li>Applied Black-Scholes pricing, dollar-delta hedging, 400,000 Monte Carlo simulations and half-Kelly sizing.</li></ul>
+            </article>
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-s">S</i>Stint 02</span><span>Sep 2026</span></div>
+              <h3>CMU MSCF Trading Competition</h3>
+              <p class="stint-role">Quantitative trading competitor · Pittsburgh, PA</p>
+              <p class="stint-result mono">1st / 170+ · Most Active Trader</p>
+              <ul><li>Built a bot for two simulated markets, turning live signals into systematic strategies, order execution and risk controls.</li><li>Adjusted execution and order timing in real time from inventory, liquidity and market conditions.</li></ul>
+            </article>
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-s">S</i>Stint 03</span><span>2026</span></div>
+              <h3>Susquehanna International Group</h3>
+              <p class="stint-role">Quantitative Trading Discovery Program · Bala Cynwyd, PA</p>
+              <p class="stint-result mono">Selected · first-year cohort</p>
+              <ul><li>Trading, probability, quantitative analysis and market structure at a global market maker.</li><li>Applied expected value, execution and decision frameworks across three market-making themes.</li></ul>
+            </article>
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-m">M</i>Stint 04</span><span>2024–2025</span></div>
+              <h3>AI and ML Research</h3>
+              <p class="stint-role">Lead researcher, three-person team · Northeastern University</p>
+              <p class="stint-result mono">5 models benchmarked</p>
+              <ul><li>Benchmarked FinBERT, FinGPT, GPT, RoBERTa and LLaMA on financial text and sentiment labels.</li><li>Directed the team and prepared an MSAST 2025 submission.</li></ul>
+            </article>
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-m">M</i>Stint 05</span><span>2024–2025</span></div>
+              <h3>Baymont by Wyndham</h3>
+              <p class="stint-role">Finance and operations intern · Milesburg, PA</p>
+              <p class="stint-result mono">+9.3% room revenue</p>
+              <ul><li>Built dynamic pricing models from seasonal demand, competitor positioning and booking patterns.</li><li>Prepared ROI analyses supporting $520,000 in renovation and investment decisions.</li></ul>
+            </article>
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-m">M</i>Stint 06</span><span>2022–Present</span></div>
+              <h3>Venture Starters and GoAhead Ventures</h3>
+              <p class="stint-role">Venture capital intern · Los Angeles / Menlo Park, CA</p>
+              <p class="stint-result mono">~100 pitches screened</p>
+              <ul><li>Screened startup pitches for senior review on market potential, competitive position and differentiation.</li><li>Summarized theses, key risks and growth opportunities for venture discussions.</li></ul>
+            </article>
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-h">H</i>Stint 07</span><span>2022–Present</span></div>
+              <h3>Future Business Leaders of America</h3>
+              <p class="stint-role">Region president · Anaheim, CA</p>
+              <p class="stint-result mono">15+ schools · 1,000+ members</p>
+              <ul><li>Organized a 700+ attendee conference and raised $2,000+ in sponsorships.</li><li>Coach competitors in financial statement analysis, presentation strategy and case preparation.</li></ul>
+            </article>
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-h">H</i>Stint 08</span><span>2023–Present</span></div>
+              <h3>Catalyst Business Advising Service</h3>
+              <p class="stint-role">Founder and president · Philadelphia, PA</p>
+              <p class="stint-result mono">15+ businesses · 4 countries</p>
+              <ul><li>Manage a 40+ member team providing pro bono financial modeling and pitch-deck consulting.</li><li>Deliver client analyses and presentations from scoping through final recommendations.</li></ul>
+            </article>
+          </div>
+        </div>
+        <div class="straight-progress mono" aria-hidden="true"><span class="sp-bar"><i></i></span><span class="sp-count">01 / 08</span></div>
       </div>
     </section>
 
-    <section class="section experience" id="experience" aria-labelledby="experience-title">
-      <div class="section-intro reveal"><h2 id="experience-title">Experience</h2><p>Work that asks for both precision and judgment, from a trading bot to a client recommendation.</p></div>
-
-      <h3 class="group-label reveal">Finance and quantitative trading</h3>
-      <div class="row-list">
-        <article class="row reveal"><div class="row-main"><h3>Introductory Finance Society</h3><p>Trade pitch</p></div><div class="row-meta"><span>Pittsburgh, PA</span><span>Oct 2026</span></div><ul><li>Won 1st place presenting a long Mosaic / short CF trade pitch.</li><li>Proposed June 2027 MOS $20/$27.50 bull call debit and CF $130/$150 bear call credit spreads to cap downside risk.</li><li>Applied Black-Scholes pricing, dollar-delta hedging, 400,000 Monte Carlo simulations and half-Kelly sizing.</li></ul></article>
-        <article class="row reveal"><div class="row-main"><h3>CMU MSCF Trading Competition</h3><p>Quantitative trading competitor</p></div><div class="row-meta"><span>Pittsburgh, PA</span><span>Sep 2026</span></div><ul><li>Built a bot for two simulated markets, turning live signals into systematic strategies, order execution and risk controls.</li><li>Monitored inventory, liquidity and market conditions, adjusting execution and order timing in real time.</li><li>Tested strategies, optimized order flow and captured opportunities across both markets.</li></ul></article>
-        <article class="row reveal"><div class="row-main"><h3>Susquehanna International Group</h3><p>Quantitative Trading Discovery Program</p></div><div class="row-meta"><span>Bala Cynwyd, PA</span><span>2026</span></div><ul><li>Selected for a first-year program at a global market maker covering trading, probability, quantitative analysis and market structure.</li><li>Applied expected value, execution and decision frameworks across three market-making themes.</li><li>Solved trading and probability problems while weighing risk, liquidity, execution quality and microstructure.</li></ul></article>
-        <article class="row reveal"><div class="row-main"><h3>AI and Machine Learning Research</h3><p>Lead researcher, three-person team</p></div><div class="row-meta"><span>Northeastern University</span><span>2024–2025</span></div><ul><li>Benchmarked five language models, including FinBERT, FinGPT, GPT, RoBERTa and LLaMA, on financial text and sentiment labels.</li><li>Designed a workflow comparing model outputs across market data, financial text and predictions.</li><li>Directed the team, prepared an MSAST 2025 submission and synthesized findings for review.</li></ul></article>
-        <article class="row reveal"><div class="row-main"><h3>Baymont by Wyndham</h3><p>Finance and operations intern</p></div><div class="row-meta"><span>Milesburg, PA</span><span>2024–2025</span></div><ul><li>Built dynamic pricing models from seasonal demand, competitor positioning and booking patterns.</li><li>Guided room-level pricing that contributed to a 9.3% increase in room revenue.</li><li>Prepared ROI analyses supporting $520,000 in renovation and investment decisions.</li></ul></article>
-        <article class="row reveal"><div class="row-main"><h3>Venture Starters and GoAhead Ventures</h3><p>Venture capital intern</p></div><div class="row-meta"><span>Los Angeles / Menlo Park, CA</span><span>2022–Present</span></div><ul><li>Screened about 100 startup pitches for senior review on market potential, competitive position and differentiation.</li><li>Assessed early-stage fit across markets, competitors, business models and growth during diligence.</li><li>Summarized theses, key risks and growth opportunities for venture discussions.</li></ul></article>
-      </div>
-
-      <h3 class="group-label reveal">Leadership</h3>
-      <div class="row-list">
-        <article class="row reveal"><div class="row-main"><h3>Future Business Leaders of America</h3><p>Region president</p></div><div class="row-meta"><span>Anaheim, CA</span><span>2022–Present</span></div><ul><li>Lead a region of 15+ schools and 1,000+ members, coordinating programming, competitions and chapter support.</li><li>Organized a 700+ attendee conference and raised $2,000+ in sponsorships.</li><li>Coach competitors in financial statement analysis, presentation strategy and case preparation.</li></ul></article>
-        <article class="row reveal"><div class="row-main"><h3>Catalyst Business Advising Service</h3><p>Founder and president</p></div><div class="row-meta"><span>Philadelphia, PA</span><span>2023–Present</span></div><ul><li>Manage a 40+ member team providing pro bono financial modeling and pitch-deck consulting.</li><li>Supported 15+ businesses across four countries through market research and financial analysis.</li><li>Deliver client analyses and presentations from initial scoping through final recommendations.</li></ul></article>
+    <!-- S3: Awards as a timing tower -->
+    <section class="panel panel-podium" id="awards" data-sector="3" data-label="Podiums · Awards" aria-labelledby="awards-title">
+      <div class="panel-inner podium-layout">
+        <header class="panel-head">
+          <p class="mono sector-tag"><b>S3</b> Awards</p>
+          <h2 id="awards-title">Podiums</h2>
+          <p>Purple is the fastest sector on a timing screen. These are mine.</p>
+        </header>
+        <ol class="tower">
+          <li><span class="t-pos mono">1</span><span class="t-bar"></span><span class="t-name"><b>FBLA National Champion</b><small>Financial Statement Analysis, 2025 nationals</small></span><span class="t-gap mono purple">1st / ~500</span></li>
+          <li><span class="t-pos mono">2</span><span class="t-bar"></span><span class="t-name"><b>CMU MSCF Trading</b><small>Most Active Trader, Largest Comeback</small></span><span class="t-gap mono purple">1st / 170+</span></li>
+          <li><span class="t-pos mono">3</span><span class="t-bar"></span><span class="t-name"><b>IFS Trade Pitch</b><small>Long MOS / short CF, October 2026</small></span><span class="t-gap mono purple">1st</span></li>
+          <li><span class="t-pos mono">4</span><span class="t-bar"></span><span class="t-name"><b>Science Olympiad</b><small>UPenn and Princeton invitationals, PA states</small></span><span class="t-gap mono green">1st, 1st, 3rd</span></li>
+          <li><span class="t-pos mono">5</span><span class="t-bar"></span><span class="t-name"><b>Varsity Ultimate Frisbee</b><small>Best Defensive Player; 13 points, 24 assists, 3x Man of the Match</small></span><span class="t-gap mono green">1 / 60</span></li>
+        </ol>
       </div>
     </section>
 
-    <section class="section awards" id="awards" aria-labelledby="awards-title">
-      <div class="section-intro reveal"><h2 id="awards-title">Awards</h2></div>
-      <div class="award-grid">
-        <article class="award-card reveal"><p class="award-figure">1st / ~500</p><h3>FBLA National Champion</h3><p>Financial Statement Analysis at the 2025 national competition</p></article>
-        <article class="award-card reveal"><p class="award-figure">1st / 170+</p><h3>CMU MSCF Trading</h3><p>Most Active Trader and Largest Comeback awards</p></article>
-        <article class="award-card reveal"><p class="award-figure">1st, 1st, 3rd</p><h3>Science Olympiad</h3><p>UPenn and Princeton invitationals, Pennsylvania state championship</p></article>
-        <article class="award-card reveal"><p class="award-figure">1 / 60</p><h3>Varsity Ultimate Frisbee</h3><p>Best Defensive Player; 13 points, 24 assists, 3x Man of the Match</p></article>
+    <!-- S4: About -->
+    <section class="panel panel-paddock" id="about" data-sector="4" data-label="Paddock · About" aria-labelledby="about-title">
+      <div class="panel-inner paddock-layout">
+        <header class="panel-head">
+          <p class="mono sector-tag"><b>S4</b> Outside the classroom</p>
+          <h2 id="about-title">In the paddock</h2>
+          <p>I like problems with a little uncertainty in them. That shows up in the way I work, and in what I do away from a screen. Formula 1 is where both meet.</p>
+        </header>
+        <div class="setup">
+          <div class="setup-block">
+            <p class="mono setup-title">Interests</p>
+            <ul class="chips"><li class="chip-hot">Formula 1</li><li>NFL</li><li>Running</li><li>Ping pong</li><li>Tennis</li><li>Soccer</li><li>Poker</li></ul>
+          </div>
+          <div class="setup-block">
+            <p class="mono setup-title">Toolkit</p>
+            <ul class="chips"><li>Python</li><li>NumPy</li><li>pandas</li><li>scikit-learn</li><li>Java</li><li>C++</li><li>Excel</li><li>Bloomberg</li><li>CapIQ</li></ul>
+          </div>
+          <div class="setup-block">
+            <p class="mono setup-title">Methods</p>
+            <ul class="chips"><li>Black-Scholes</li><li>Monte Carlo</li><li>Kelly sizing</li><li>Financial modeling</li><li>ROI analysis</li><li>Due diligence</li></ul>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section about" id="about" aria-labelledby="about-title">
-      <div class="about-panel reveal">
-        <h2 id="about-title">Outside the classroom</h2>
-        <p>I like problems with a little uncertainty in them. That shows up in the way I work, and in what I do away from a screen.</p>
-        <dl class="about-lists">
-          <dt>Interests</dt><dd><span>Formula 1</span><span>NFL</span><span>Running</span><span>Ping pong</span><span>Tennis</span><span>Soccer</span><span>Poker</span></dd>
-          <dt>Tools</dt><dd><span>Python</span><span>NumPy</span><span>pandas</span><span>scikit-learn</span><span>Java</span><span>C++</span><span>Excel</span><span>Bloomberg</span><span>CapIQ</span></dd>
-        </dl>
-      </div>
-    </section>
-
-    <section class="contact" id="contact" aria-labelledby="contact-title">
-      <div class="contact-inner">
-        <h2 id="contact-title">Have a good question? Send it my way</h2>
-        <a class="contact-email" href="mailto:contact.darshsinghvi@gmail.com">contact.darshsinghvi@gmail.com</a>
-        <div class="contact-footer"><span>© <span id="year"></span> Darsh Singhvi</span><a href="https://www.linkedin.com/in/darshsinghvi" target="_blank" rel="noreferrer">LinkedIn</a></div>
+    <!-- Finish -->
+    <section class="finish" id="contact" aria-labelledby="contact-title">
+      <div class="chequer" aria-hidden="true"></div>
+      <div class="finish-inner">
+        <p class="mono sector-tag"><b>Finish</b> Contact</p>
+        <h2 id="contact-title">Box, box. Let’s talk</h2>
+        <p class="finish-sub">Have a good question, a trade idea or an F1 take? Send it my way.</p>
+        <a class="finish-email" href="mailto:contact.darshsinghvi@gmail.com">contact.darshsinghvi@gmail.com</a>
+        <div class="finish-footer mono"><span>© <span id="year"></span> Darsh Singhvi</span><a href="https://www.linkedin.com/in/darshsinghvi" target="_blank" rel="noreferrer">LinkedIn</a><a href="assets/Darsh_Singhvi_Resume.pdf" target="_blank" rel="noreferrer">Resume PDF</a></div>
       </div>
     </section>
   </main>

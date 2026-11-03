@@ -183,7 +183,7 @@ ul, ol { padding: 0; list-style: none; }
 .straight-head .sector-tag { flex-basis: 100%; margin-bottom: 0; }
 .compounds { display: flex; flex-wrap: wrap; gap: 20px; color: var(--text-2); }
 .compounds span { display: inline-flex; align-items: center; gap: 8px; }
-.tyre { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 3px solid; background: #0a0a0b; font-family: var(--mono); font-size: 9px; font-style: normal; font-weight: 500; color: var(--text); }
+.tyre { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 3px solid; background: #0a0a0b; font-family: var(--mono); font-size: 9px; font-style: normal; font-weight: 500; line-height: 1; color: var(--text); flex: none; }
 .tyre-s { border-color: var(--light); }
 .tyre-m { border-color: var(--yellow); }
 .tyre-h { border-color: #e9e9e9; }

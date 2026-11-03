@@ -7,11 +7,11 @@ const root = document.getElementById('intro');
 const SECTORS = [
   { id: 'education', s: 'S1', name: 'Education', color: '#ff3b2f', range: [0, 0.17] },
   { id: 'experience', s: 'S2', name: 'Experience', color: '#ffd23f', range: [0.17, 0.6] },
-  { id: 'awards', s: 'S3', name: 'Awards', color: '#b47cff', range: [0.6, 0.78] },
-  { id: 'about', s: 'S4', name: 'About', color: '#3fd982', range: [0.78, 1] },
+  { id: 'about', s: 'S3', name: 'About', color: '#3fd982', range: [0.6, 0.8] },
+  { id: 'awards', s: 'S4', name: 'Awards', color: '#b47cff', range: [0.8, 1] },
 ];
 const sectionAt = (t) => SECTORS.find((s) => t >= s.range[0] && t < s.range[1]) || SECTORS[0];
-const BOARDS = [[0.0, 'EDUCATION'], [0.17, 'EXPERIENCE'], [0.6, 'AWARDS'], [0.78, 'ABOUT'], [0.9, 'CONTACT']];
+const BOARDS = [[0.0, 'EDUCATION'], [0.17, 'EXPERIENCE'], [0.6, 'ABOUT'], [0.7, 'CONTACT'], [0.8, 'PODIUM']];
 
 /* Pop-ups that appear as the car reaches each part of the story */
 const POPS = [
@@ -25,12 +25,14 @@ const POPS = [
   { f: 0.45, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-m">M</i>Venture Starters and GoAhead Ventures</h3><p class="i-meta">Venture capital intern · 2022–Present</p><span class="i-result">~100 pitches screened</span><p class="i-line">Market potential, competitive position and key risks, summarized for senior review.</p>` },
   { f: 0.5, tag: 'S2 · Leadership', html: `<h3><i class="i-tyre i-tyre-h">H</i>Future Business Leaders of America</h3><p class="i-meta">Region president · 2022–Present</p><span class="i-result">15+ schools · 1,000+ members</span><p class="i-line">Ran a 700+ attendee conference and raised $2,000+ in sponsorships.</p>` },
   { f: 0.55, tag: 'S2 · Leadership', html: `<h3><i class="i-tyre i-tyre-h">H</i>Catalyst Business Advising Service</h3><p class="i-meta">Founder and president · 2023–Present</p><span class="i-result">15+ businesses · 4 countries</span><p class="i-line">A 40+ member team doing pro bono financial modeling and pitch decks.</p>` },
-  { f: 0.605, tag: 'S3 · Awards', html: `<h3>On the podium</h3><ul class="i-tower">
-        <li><span class="i-pos">1</span><span>FBLA National Champion<small>Financial Statement Analysis, 2025</small></span><span class="i-gap purple">1st / ~500</span></li>
-        <li><span class="i-pos">2</span><span>CMU MSCF Trading<small>Most Active Trader</small></span><span class="i-gap purple">1st / 170+</span></li>
-        <li><span class="i-pos">3</span><span>Science Olympiad<small>UPenn, Princeton, PA states</small></span><span class="i-gap green">1st, 1st, 3rd</span></li></ul>` },
-  { f: 0.785, tag: 'S4 · About', html: `<h3>In the paddock</h3><p class="i-line">I like problems with a little uncertainty in them.</p><ul class="i-chips"><li class="i-hot">Formula 1</li><li>NFL</li><li>Running</li><li>Ping pong</li><li>Tennis</li><li>Poker</li></ul><ul class="i-chips"><li>Python</li><li>pandas</li><li>Java</li><li>C++</li><li>Bloomberg</li></ul>` },
-  { f: 0.9, tag: 'Box, box', html: `<h3>Let’s talk</h3><p class="i-line">A good question, a trade idea or an F1 take. Send it my way.</p><div class="i-actions"><a class="i-button" href="mailto:contact.darshsinghvi@gmail.com">Email me</a><a class="i-button ghost" href="https://www.linkedin.com/in/darshsinghvi" target="_blank" rel="noreferrer">LinkedIn</a></div>` },
+  { f: 0.605, tag: 'S3 · About', html: `<h3>In the paddock</h3><p class="i-line">I like problems with a little uncertainty in them.</p><ul class="i-chips"><li class="i-hot">Formula 1</li><li>NFL</li><li>Running</li><li>Ping pong</li><li>Tennis</li><li>Poker</li></ul><ul class="i-chips"><li>Python</li><li>pandas</li><li>Java</li><li>C++</li><li>Bloomberg</li></ul>` },
+  { f: 0.7, tag: 'Box, box', html: `<h3>Let’s talk</h3><p class="i-line">A good question, a trade idea or an F1 take. Send it my way.</p><div class="i-actions"><a class="i-button" href="mailto:contact.darshsinghvi@gmail.com">Email me</a><a class="i-button ghost" href="https://www.linkedin.com/in/darshsinghvi" target="_blank" rel="noreferrer">LinkedIn</a></div>` },
+  { f: 0.8, tag: 'S4 · Awards', html: `<h3>Podium</h3>
+      <div class="i-podium">
+        <div class="i-step i-p2"><p><b>CMU MSCF Trading</b><span class="i-gap purple">1st / 170+</span></p><i>2</i></div>
+        <div class="i-step i-p1"><p><b>FBLA National Champion</b><span class="i-gap purple">1st / ~500</span></p><i>1</i></div>
+        <div class="i-step i-p3"><p><b>Science Olympiad</b><span class="i-gap green">1st, 1st, 3rd</span></p><i>3</i></div>
+      </div>` },
 ];
 const CORNERS = [[0.042, 'Abbey'], [0.133, 'Farm'], [0.15, 'Village'], [0.2, 'The Loop'], [0.23, 'Aintree'], [0.365, 'Brooklands'], [0.385, 'Luffield'], [0.465, 'Woodcote'], [0.592, 'Copse'], [0.627, 'Maggotts'], [0.67, 'Becketts'], [0.698, 'Chapel'], [0.852, 'Stowe'], [0.885, 'Vale'], [0.945, 'Club'], [1.042, 'Abbey']];
 

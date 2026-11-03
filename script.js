@@ -56,7 +56,6 @@ let introDone = false;
 function endIntro() {
   if (introDone) return;
   introDone = true;
-  try { sessionStorage.setItem('lapSeen', '1'); } catch (e) { /* private mode */ }
   window.dispatchEvent(new Event('lap:end'));
   intro.classList.add('out');
   window.scrollTo(0, 0);
@@ -70,7 +69,7 @@ if (document.documentElement.classList.contains('intro-on')) {
   intro.querySelector('.i-skip').addEventListener('click', endIntro);
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') endIntro(); });
   window.addEventListener('lap:finish', endIntro);
-  import('./lap/intro.js?v=2').catch(endIntro);
+  import('./lap/intro.js?v=3').catch(endIntro);
 } else {
   intro.remove();
   queueMicrotask(startLights);

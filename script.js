@@ -33,10 +33,11 @@ function lightsOut() {
   statusText.textContent = 'Lights out and away we go';
   body.classList.remove('is-starting');
   body.classList.add('is-go');
+  driveHeroLap();
 }
 
 if (reducedMotion) {
-  lightsOut();
+  queueMicrotask(lightsOut);
 } else {
   statusText.textContent = 'Formation lap';
   pods.forEach((pod, i) => {
@@ -49,6 +50,69 @@ if (reducedMotion) {
   ['wheel', 'touchstart', 'keydown'].forEach((type) => window.addEventListener(type, lightsOut, { once: true, passive: true }));
 }
 
+
+/* ---------- Hero circuit ---------- */
+const circuitLine = document.querySelector('.c-line');
+const heroCar = document.querySelector('.c-car');
+const lapLabel = document.querySelector('.circuit-lap');
+const sectorPaths = [...document.querySelectorAll('.c-sector')];
+const heroLen = circuitLine.getTotalLength();
+const splits = [0, 0.22, 0.5, 0.72, 1];
+
+circuitLine.style.strokeDasharray = heroLen;
+circuitLine.style.strokeDashoffset = body.classList.contains('is-go') ? 0 : heroLen;
+sectorPaths.forEach((p, i) => {
+  const a = splits[i] * heroLen;
+  const len = (splits[i + 1] - splits[i]) * heroLen;
+  p.style.strokeDasharray = `${len} ${heroLen}`;
+  p.style.strokeDashoffset = -a;
+});
+// Sector boundary ticks
+const tickGroup = document.querySelector('.c-ticks');
+splits.slice(1, 4).forEach((f) => {
+  const l = f * heroLen;
+  const p0 = circuitLine.getPointAtLength(l - 1);
+  const p1 = circuitLine.getPointAtLength(l + 1);
+  const dx = p1.x - p0.x; const dy = p1.y - p0.y; const n = Math.hypot(dx, dy) || 1;
+  const nx = -dy / n * 12; const ny = dx / n * 12;
+  const pt = circuitLine.getPointAtLength(l);
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  line.setAttribute('x1', pt.x - nx); line.setAttribute('y1', pt.y - ny);
+  line.setAttribute('x2', pt.x + nx); line.setAttribute('y2', pt.y + ny);
+  tickGroup.appendChild(line);
+});
+
+function lightSector(n) {
+  sectorPaths.forEach((p) => p.classList.toggle('lit', Number(p.dataset.s) === n));
+}
+
+let lapDone = false;
+function driveHeroLap() {
+  if (reducedMotion) { lapDone = true; lapLabel.textContent = 'Pick a sector'; return; }
+  const dur = 3600;
+  const t0 = performance.now();
+  const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+  function step(now) {
+    const t = Math.min(1, (now - t0) / dur);
+    const f = ease(t);
+    const pt = circuitLine.getPointAtLength(f * heroLen);
+    heroCar.setAttribute('cx', pt.x); heroCar.setAttribute('cy', pt.y);
+    const sec = splits.findIndex((x, i) => f >= x && f < splits[i + 1]) + 1;
+    lightSector(t < 1 ? sec : 0);
+    lapLabel.textContent = t < 1 ? `Sector ${sec}` : 'Pick a sector';
+    if (t < 1) requestAnimationFrame(step); else lapDone = true;
+  }
+  requestAnimationFrame(step);
+}
+
+document.querySelectorAll('.circuit-legend a').forEach((a) => {
+  const n = Number(a.dataset.s);
+  const on = () => { if (lapDone) { lightSector(n); lapLabel.textContent = a.textContent.replace(/^S\d/, `S${n} · `).replace(/([a-z])([A-Z])/, '$1 · $2'); } };
+  const off = () => { if (lapDone) { lightSector(0); lapLabel.textContent = 'Pick a sector'; } };
+  a.addEventListener('mouseenter', on); a.addEventListener('focus', on);
+  a.addEventListener('mouseleave', off); a.addEventListener('blur', off);
+});
+
 /* ---------- Layout measurements ---------- */
 const sections = [...document.querySelectorAll('main > section')];
 const stickies = sections.filter((s) => s.classList.contains('hero') || s.classList.contains('panel'));
@@ -58,7 +122,8 @@ const stintCards = [...document.querySelectorAll('.stint')];
 const streaks = [...document.querySelectorAll('.streaks span')];
 const spBar = document.querySelector('.sp-bar i');
 const spCount = document.querySelector('.sp-count');
-const tower = document.querySelector('.tower');
+const podium = document.querySelector('.podium');
+const navLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')];
 
 const minimap = document.querySelector('.minimap');
 const carPath = document.querySelector('.track-done');
@@ -175,7 +240,10 @@ function frame() {
 
   // Timing tower rows slide in when the podium panel arrives
   const ti = sections.findIndex((s) => s.id === 'awards');
-  if (y + vh * 0.6 >= starts[ti]) tower.classList.add('in');
+  if (y + vh * 0.6 >= starts[ti]) podium.classList.add('in');
+
+  const ids = { 1: 'education', 2: 'experience', 3: 'awards', 4: 'about' };
+  navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === `#${ids[current]}`));
 }
 
 function requestTick() {

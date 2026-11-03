@@ -37,9 +37,8 @@ function lightsOut() {
   driveHeroLap();
 }
 
-if (reducedMotion) {
-  queueMicrotask(lightsOut);
-} else {
+function startLights() {
+  if (reducedMotion) { lightsOut(); return; }
   statusText.textContent = 'Formation lap';
   pods.forEach((pod, i) => {
     timers.push(setTimeout(() => {
@@ -51,6 +50,31 @@ if (reducedMotion) {
   ['wheel', 'touchstart', 'keydown'].forEach((type) => window.addEventListener(type, lightsOut, { once: true, passive: true }));
 }
 
+/* ---------- Intro lap: one 3D lap of Silverstone, then hand over to the page ---------- */
+const intro = document.getElementById('intro');
+let introDone = false;
+function endIntro() {
+  if (introDone) return;
+  introDone = true;
+  try { sessionStorage.setItem('lapSeen', '1'); } catch (e) { /* private mode */ }
+  window.dispatchEvent(new Event('lap:end'));
+  intro.classList.add('out');
+  window.scrollTo(0, 0);
+  setTimeout(() => {
+    document.documentElement.classList.remove('intro-on');
+    intro.remove();
+    lightsOut();
+  }, 700);
+}
+if (document.documentElement.classList.contains('intro-on')) {
+  intro.querySelector('.i-skip').addEventListener('click', endIntro);
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') endIntro(); });
+  window.addEventListener('lap:finish', endIntro);
+  import('./lap/intro.js?v=2').catch(endIntro);
+} else {
+  intro.remove();
+  queueMicrotask(startLights);
+}
 
 /* ---------- Hero circuit ---------- */
 const circuitLine = document.querySelector('.c-line');

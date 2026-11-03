@@ -58,7 +58,7 @@ const heroCar = document.querySelector('.c-car');
 const lapLabel = document.querySelector('.circuit-lap');
 const sectorPaths = [...document.querySelectorAll('.c-sector')];
 const heroLen = circuitLine.getTotalLength();
-const splits = [0, 0.22, 0.5, 0.72, 1];
+const splits = [0, 0.3, 0.54, 0.79, 1];
 
 circuitLine.style.strokeDasharray = heroLen;
 circuitLine.style.strokeDashoffset = body.classList.contains('is-go') ? 0 : heroLen;
@@ -104,8 +104,39 @@ function placePin(pin, x, y) {
   pin.style.left = `${((x - VB.x) / VB.w) * 100}%`;
   pin.style.top = `${((y - VB.y) / VB.h) * 100}%`;
 }
-document.querySelectorAll('.c-turns text').forEach((t) => makePin(+t.getAttribute('x'), +t.getAttribute('y') + 4, `T${t.textContent}`, 'turn'));
-const carPin = makePin(100, 250, 'DS', 'car');
+// Corner names stay hidden until you hover a pin
+const corners = [[0.042, 1, 'Abbey'], [0.2, 4, 'The Loop'], [0.365, 6, 'Brooklands'], [0.385, 7, 'Luffield'], [0.592, 9, 'Copse'], [0.67, 11, 'Becketts'], [0.852, 15, 'Stowe'], [0.945, 18, 'Club']];
+corners.forEach(([f, n, name]) => {
+  const pt = circuitLine.getPointAtLength(f * heroLen);
+  const pin = makePin(pt.x, pt.y, `T${n}`, 'turn');
+  const label = pin.querySelector('.pin-label');
+  label.innerHTML = `T${n}<span class="pin-name">${name}</span>`;
+});
+
+// Start/finish chequer and DRS zones, placed along the real lap
+const along = (f) => circuitLine.getPointAtLength(((f % 1) + 1) % 1 * heroLen);
+const heading = (f) => { const a = along(f - 0.002); const b = along(f + 0.002); return Math.atan2(b.y - a.y, b.x - a.x); };
+const sf = along(0);
+document.querySelector('.c-finish').setAttribute('transform', `translate(${sf.x} ${sf.y}) rotate(${(heading(0) * 180) / Math.PI}) translate(-6 -9)`);
+const drs = document.querySelector('.c-drs');
+const box = circuitLine.getBBox();
+const mid = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+[[0.245, 0.33], [0.745, 0.83]].forEach(([a, b]) => {
+  let d = '';
+  for (let f = a; f <= b + 1e-6; f += 0.005) {
+    const p = along(f); const h = heading(f);
+    let nx = -Math.sin(h); let ny = Math.cos(h);
+    if ((p.x + nx - mid.x) ** 2 + (p.y + ny - mid.y) ** 2 < (p.x - mid.x) ** 2 + (p.y - mid.y) ** 2) { nx = -nx; ny = -ny; }
+    d += `${d ? 'L' : 'M'}${(p.x + nx * 17).toFixed(1)} ${(p.y + ny * 17).toFixed(1)} `;
+  }
+  const path = document.createElementNS(SVGNS, 'path');
+  path.setAttribute('d', d);
+  path.setAttribute('class', 'c-drs-line');
+  drs.appendChild(path);
+});
+console.log('%cBox, box. You found the circuit: Silverstone, 5.891 km, 52 laps, home of the first F1 world championship race (1950).', 'color:#e8352a;font-weight:600');
+const carPin = makePin(circuitLine.getPointAtLength(0).x, circuitLine.getPointAtLength(0).y, 'DS', 'car');
+heroCar.setAttribute('cx', circuitLine.getPointAtLength(0).x); heroCar.setAttribute('cy', circuitLine.getPointAtLength(0).y);
 
 const circuitCard = document.querySelector('.circuit');
 if (!reducedMotion && window.matchMedia('(hover: hover)').matches) {

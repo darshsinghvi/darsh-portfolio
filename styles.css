@@ -102,6 +102,7 @@ ul, ol { padding: 0; list-style: none; }
 .button-ghost:hover { background: var(--raised); }
 
 .circuit { padding: 20px 20px 16px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 24px 64px rgba(0, 0, 0, .35); }
+.circuit-name { cursor: help; }
 .circuit-head { display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--line); color: var(--muted); }
 .circuit-lap { color: var(--text-2); font-variant-numeric: tabular-nums; }
 @property --rx { syntax: "<angle>"; inherits: true; initial-value: 0deg; }
@@ -117,6 +118,11 @@ ul, ol { padding: 0; list-style: none; }
 .c-extrude .c-shadow { stroke: rgba(0, 0, 0, .55); stroke-width: 34; filter: blur(6px); }
 .circuit-svg { width: 100%; height: 100%; overflow: visible; transform: translateZ(16px); }
 .c-pins { transform: translateZ(16px); pointer-events: none; }
+.pin-turn .pin-label { pointer-events: auto; cursor: default; white-space: nowrap; transition: background-color .15s var(--ease), color .15s var(--ease); }
+.pin-name { display: none; margin-left: 6px; }
+.pin-turn .pin-label:hover { background: var(--text); color: var(--bg); }
+.pin-turn .pin-label:hover .pin-name { display: inline; }
+.pin-turn:hover { z-index: 5; }
 .pin { position: absolute; width: 0; height: 0; transform-style: preserve-3d; transform: rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--rx))); }
 .pin-body { position: absolute; left: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; transform: translateX(-50%); }
 .pin-label { min-width: 20px; padding: 2px 5px; background: #f2f2f2; color: #0c0d0f; border-radius: 4px; font-family: var(--mono); font-size: 11px; font-weight: 500; line-height: 1.3; text-align: center; }
@@ -126,7 +132,7 @@ ul, ol { padding: 0; list-style: none; }
 .pin-car .pin-stem { height: 26px; background: var(--red); }
 .pin-turn { opacity: 0; transition: opacity .4s var(--ease) 1.2s; }
 .is-go .pin-turn { opacity: 1; }
-.c-turns { display: none; }
+
 .c-edge { fill: none; stroke: #2b2c31; stroke-width: 24; stroke-linejoin: round; }
 .c-asphalt { fill: none; stroke: #18191c; stroke-width: 20; stroke-linejoin: round; }
 .c-sector { fill: none; stroke-width: 20; stroke-linejoin: round; stroke-linecap: butt; opacity: 0; transition: opacity .2s var(--ease); }
@@ -140,9 +146,7 @@ ul, ol { padding: 0; list-style: none; }
 .c-ticks line { stroke: var(--text); stroke-width: 2; }
 .c-finish rect { fill: #0a0a0b; }
 .c-finish rect.w { fill: #f2f2f2; }
-.c-turns text { fill: var(--muted); font-family: var(--mono); font-size: 11px; text-anchor: middle; }
-.c-drs { fill: var(--green); font-family: var(--mono); font-size: 10px; text-anchor: middle; opacity: .8; }
-.c-drs-line { stroke: var(--green); stroke-width: 2; stroke-dasharray: 4 4; opacity: .6; }
+.c-drs-line { fill: none; stroke: var(--green); stroke-width: 2; stroke-dasharray: 4 4; opacity: .7; }
 .c-car { fill: var(--red); stroke: #fff; stroke-width: 2.5; opacity: 0; transition: opacity .2s; }
 .is-go .c-car { opacity: 1; }
 .circuit-legend { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }

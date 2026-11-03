@@ -1,14 +1,10 @@
 const header = document.querySelector('.site-header');
-const progress = document.querySelector('.scroll-line span');
 const menuButton = document.querySelector('.menu-button');
 const nav = document.querySelector('.site-nav');
 const year = document.querySelector('#year');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function updateScroll() {
-  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-  const amount = scrollable > 0 ? window.scrollY / scrollable : 0;
-  progress.style.transform = `scaleX(${amount})`;
   header.classList.toggle('scrolled', window.scrollY > 12);
 }
 
@@ -25,7 +21,7 @@ menuButton.addEventListener('click', () => {
 
 nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
 window.addEventListener('scroll', updateScroll, { passive: true });
-window.addEventListener('resize', () => { if (window.innerWidth > 800) closeMenu(); updateScroll(); });
+window.addEventListener('resize', () => { if (window.innerWidth > 760) closeMenu(); updateScroll(); });
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {

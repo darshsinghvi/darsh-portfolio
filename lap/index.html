@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A lap of Silverstone with Darsh Singhvi. Scroll to drive, and his education, experience and awards appear around the circuit.">
+  <meta name="theme-color" content="#0c0d0f">
+  <title>Darsh Singhvi · One lap</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="lap.css?v=1">
+  <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
+  <script type="module" src="lap.js?v=1"></script>
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="scroll-space" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="wordmark" href="../"><span class="wordmark-num">DS</span>Darsh Singhvi</a>
+    <nav class="topnav">
+      <a href="../">Full site</a>
+      <a class="nav-resume" href="../assets/Darsh_Singhvi_Resume.pdf" target="_blank" rel="noreferrer">Resume</a>
+    </nav>
+  </header>
+
+  <main id="cards" class="cards" aria-live="polite"></main>
+
+  <div class="hud">
+    <div class="hud-row mono">
+      <span class="hud-sector"><b>S1</b> <span class="hud-section">Grid</span></span>
+      <span class="hud-corner">Next: Abbey</span>
+      <span class="hud-speed"><b>0</b> km/h</span>
+    </div>
+    <div class="hud-bar"><i></i><div class="hud-marks"></div></div>
+  </div>
+
+  <aside class="mini" aria-hidden="true">
+    <svg viewBox="0 0 100 100"><path class="mini-track"/><circle class="mini-car" r="3"/></svg>
+  </aside>
+
+  <div class="loading mono">Warming up the tyres</div>
+  <noscript><p class="nojs">This lap needs JavaScript. <a href="../">Open the full site</a>.</p></noscript>
+</body>
+</html>

@@ -64,7 +64,7 @@ function startIntro() {
   skipBtn.addEventListener('click', endIntro);
   skipBtn.focus({ preventScroll: true });
   // A fresh module per run, so each lap starts from the grid
-  import(`./lap/intro.js?v=4&run=${introRun}`).catch(endIntro);
+  import(`./lap/intro.js?v=5&run=${introRun}`).catch(endIntro);
 }
 function endIntro() {
   if (!introEl) return;

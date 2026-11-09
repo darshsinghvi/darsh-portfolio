@@ -129,7 +129,7 @@ export function buildCar(envMap) {
     [[-0.5, -2.2], [0.5, -2.2], [0.55, -1.45], [0.8, -1.2], [0.8, 0.9], [0.45, 1.3], [-0.45, 1.3], [-0.8, 0.9], [-0.8, -1.2], [-0.55, -1.45]].forEach(([x, z], i) => (i ? s.lineTo(x, z) : s.moveTo(x, z)));
     const g = new THREE.ExtrudeGeometry(s, { depth: 0.04, bevelEnabled: true, bevelThickness: 0.01, bevelSize: 0.02, bevelSegments: 2 });
     g.rotateX(Math.PI / 2);
-    add(new THREE.Mesh(g, carbon), 0, 0.1, 0);
+    add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: '#0a0a0b', roughness: 0.9 })), 0, 0.1, 0);
   }
 
   // Main body: nose, survival cell, airbox and engine cover as one tapered loft
@@ -169,24 +169,26 @@ export function buildCar(envMap) {
     add(m, 0, 0.57, 1.75);
   }
 
-  // Front wing: three stacked elements and curved endplates
-  add(airfoil(0.34, 0.035, 1.9, carbon, 0.1), 0, 0.12, 2.92).rotation.x = 0.04;
-  add(airfoil(0.2, 0.025, 1.7, paint, 0.3), 0, 0.2, 2.72).rotation.x = 0.35;
-  add(airfoil(0.14, 0.02, 1.5, white, 0.3), 0, 0.28, 2.6).rotation.x = 0.6;
-  [-1, 1].forEach((side) => add(smoothProfile([[3.1, 0.06], [3.08, 0.26], [2.85, 0.36], [2.55, 0.33], [2.5, 0.06]], 0.025, 0.008, carbon), side * 0.96, 0, 0));
+  // Front wing: a narrower main plane and two active flaps that flatten on the straights
+  const aero = [];
+  add(airfoil(0.34, 0.035, 1.76, carbon, 0.1), 0, 0.12, 2.9).rotation.x = 0.04;
+  { const f = add(airfoil(0.2, 0.025, 1.6, paint, 0.3), 0, 0.2, 2.7); f.rotation.x = 0.35; aero.push({ m: f, closed: 0.35, open: 0.08 }); }
+  { const f = add(airfoil(0.14, 0.02, 1.44, white, 0.3), 0, 0.28, 2.58); f.rotation.x = 0.6; aero.push({ m: f, closed: 0.6, open: 0.15 }); }
+  [-1, 1].forEach((side) => add(smoothProfile([[3.08, 0.06], [3.06, 0.24], [2.85, 0.34], [2.55, 0.31], [2.5, 0.06]], 0.025, 0.008, carbon), side * 0.89, 0, 0));
   add(rod([0.12, 0.3, 2.55], [0.08, 0.15, 2.75], 0.015, carbon)); add(rod([-0.12, 0.3, 2.55], [-0.08, 0.15, 2.75], 0.015, carbon));
 
-  // Rear wing: main plane, flap, beam wing, endplates and a swan-neck pylon
+  // Rear wing: main plane and an active flap, endplates with light strips, no beam wing
+  const ledMat = new THREE.MeshBasicMaterial({ color: '#ff2a1a', toneMapped: false });
   add(airfoil(0.36, 0.05, 1.0, carbon, 0.3), 0, 1.0, -2.42).rotation.x = 0.12;
-  add(airfoil(0.2, 0.03, 1.0, paint, 0.3), 0, 1.14, -2.3).rotation.x = 0.55;
-  add(airfoil(0.18, 0.03, 0.9, carbon, 0.2), 0, 0.42, -2.45);
+  { const f = add(airfoil(0.22, 0.03, 1.0, paint, 0.3), 0, 1.14, -2.3); f.rotation.x = 0.55; aero.push({ m: f, closed: 0.55, open: 0.05 }); }
   [-1, 1].forEach((side) => {
     add(smoothProfile([[-2.1, 0.55], [-2.12, 1.2], [-2.25, 1.28], [-2.62, 1.24], [-2.66, 0.75], [-2.5, 0.55]], 0.025, 0.008, carbon), side * 0.52, 0, 0);
     add(new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.04, 0.5), white), side * 0.52, 1.28, -2.4);
+    add(new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.42, 0.025), ledMat), side * 0.535, 0.98, -2.655);
   });
   add(tube([[0, 0.42, -2.2], [0, 0.9, -2.3], [0, 1.06, -2.38]], 0.025, carbon));
   // Rain light
-  add(new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.05, 0.02), new THREE.MeshBasicMaterial({ color: '#ff2a1a', toneMapped: false })), 0, 0.35, -2.42);
+  add(new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.07, 0.03), ledMat), 0, 0.36, -2.43);
 
   // Halo: a titanium hoop around the driver with a centre strut
   add(tube([[-0.3, 0.74, -0.02], [-0.3, 0.9, 0.25], [-0.2, 0.97, 0.52], [0, 0.99, 0.62], [0.2, 0.97, 0.52], [0.3, 0.9, 0.25], [0.3, 0.74, -0.02]], 0.03, titanium));
@@ -203,7 +205,7 @@ export function buildCar(envMap) {
   // Wheels: tyres with rounded shoulders, rims with spokes, compound stripe; front wheels steer
   const wheels = []; const steer = [];
   const R = 0.36;
-  [[-0.82, 1.75, 0.3, true], [0.82, 1.75, 0.3, true], [-0.8, -1.85, 0.4, false], [0.8, -1.85, 0.4, false]].forEach(([wx, wz, w, front]) => {
+  [[-0.78, 1.68, 0.27, true], [0.78, 1.68, 0.27, true], [-0.76, -1.72, 0.36, false], [0.76, -1.72, 0.36, false]].forEach(([wx, wz, w, front]) => {
     const pivot = new THREE.Group(); pivot.position.set(wx, R, wz);
     const wheel = new THREE.Group();
     const t = tyre(R, w, rubber); t.castShadow = true; wheel.add(t);
@@ -230,5 +232,5 @@ export function buildCar(envMap) {
   });
 
   car.traverse((o) => { if (o.isMesh) { o.castShadow = true; } });
-  return { car, wheels, steer };
+  return { car, wheels, steer, aero };
 }

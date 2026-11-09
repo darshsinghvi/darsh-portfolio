@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { TRACK } from './track.js';
-import { buildCar } from './car.js?v=2';
+import { buildCar } from './car.js?v=4';
 
 const root = document.getElementById('intro');
 
@@ -18,16 +18,16 @@ const BOARDS = [[0.0, 'EDUCATION'], [0.17, 'EXPERIENCE'], [0.6, 'ABOUT'], [0.7, 
 /* Pop-ups that appear as the car reaches each part of the story */
 const POPS = [
   { f: 0.015, tag: 'S1 · Education', html: `<h3>Carnegie Mellon University</h3><p class="i-meta">B.S. Business, additional major in Mathematics · Expected May 2030</p><p class="i-line">CMU Quant Club, Math Club, Scottie Ventures, Poker Club</p>` },
-  { f: 0.09, tag: 'S1 · Education', html: `<h3>Garnet Valley High School</h3><p class="i-meta">Valedictorian · 4.30 weighted, 4.00 unweighted · June 2026</p><p class="i-line">Marching Band, Science Olympiad, FBLA, Finance Club, NHS</p>` },
-  { f: 0.175, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-s">S</i>Introductory Finance Society</h3><p class="i-meta">Trade pitch · Oct 2026</p><span class="i-result">P1 · 1st place</span><p class="i-line">Long Mosaic / short CF options spreads, priced with Black-Scholes and 400,000 Monte Carlo runs.</p>` },
-  { f: 0.23, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-s">S</i>CMU MSCF Trading Competition</h3><p class="i-meta">Quantitative trading competitor · Sep 2026</p><span class="i-result">1st / 170+ · Most Active Trader</span><p class="i-line">Built a trading bot for two simulated markets with execution and risk controls.</p>` },
-  { f: 0.285, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-s">S</i>Susquehanna International Group</h3><p class="i-meta">Quantitative Trading Discovery Program · 2026</p><span class="i-result">Selected · first-year cohort</span><p class="i-line">Probability, expected value and market structure at a global market maker.</p>` },
-  { f: 0.34, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-m">M</i>AI and ML Research</h3><p class="i-meta">Lead researcher · Northeastern University · 2024–2025</p><span class="i-result">5 models benchmarked</span><p class="i-line">FinBERT, FinGPT, GPT, RoBERTa and LLaMA on financial sentiment.</p>` },
-  { f: 0.395, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-m">M</i>Baymont by Wyndham</h3><p class="i-meta">Finance and operations intern · 2024–2025</p><span class="i-result">+9.3% room revenue</span><p class="i-line">Dynamic pricing models and ROI analyses behind $520,000 of investment decisions.</p>` },
-  { f: 0.45, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-m">M</i>Venture Starters and GoAhead Ventures</h3><p class="i-meta">Venture capital intern · 2022–Present</p><span class="i-result">~100 pitches screened</span><p class="i-line">Market potential, competitive position and key risks, summarized for senior review.</p>` },
-  { f: 0.5, tag: 'S2 · Leadership', html: `<h3><i class="i-tyre i-tyre-h">H</i>Future Business Leaders of America</h3><p class="i-meta">Region president · 2022–Present</p><span class="i-result">15+ schools · 1,000+ members</span><p class="i-line">Ran a 700+ attendee conference and raised $2,000+ in sponsorships.</p>` },
+  { f: 0.09, tag: 'S1 · Education', html: `<h3>Garnet Valley High School</h3><p class="i-meta">Valedictorian · 4.30 weighted, 4.00 unweighted · June 2026</p><p class="i-line">FBLA, Science Olympiad, NHS, Finance Club, Marching Band</p>` },
+  { f: 0.175, tag: 'S2 · Projects', html: `<h3><i class="i-tyre i-tyre-s">S</i>Prediction Market Trading System</h3><p class="i-meta">Kalshi and Polymarket weather markets · Nov 2026–Present</p><span class="i-result">+4.2% out of sample</span><p class="i-line">Paper-trading bots with hard risk limits and ~1s repricing, backtested on 16,000+ resolved events.</p>` },
+  { f: 0.23, tag: 'S2 · Projects', html: `<h3><i class="i-tyre i-tyre-s">S</i>CMU MSCF Trading Competition</h3><p class="i-meta">Volatility and ETF arbitrage bots · Sep 2026</p><span class="i-result">1st / 170+ · Most Active Trader</span><p class="i-line">Black-Scholes implied vol on 10 options with delta hedging; median $125,000 per practice heat.</p>` },
+  { f: 0.285, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-s">S</i>Introductory Finance Society</h3><p class="i-meta">Trade pitch · Oct 2026</p><span class="i-result">P1 · 1st place</span><p class="i-line">Long Mosaic / short CF options spreads, stress-tested with Black-Scholes and 400,000 Monte Carlo runs.</p>` },
+  { f: 0.34, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-s">S</i>Susquehanna International Group</h3><p class="i-meta">Quantitative Trading Discovery Program · 2026</p><span class="i-result">Selected · first-year cohort</span><p class="i-line">Probability, expected value and market structure in workshops alongside SIG traders.</p>` },
+  { f: 0.395, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-m">M</i>AI and ML Research</h3><p class="i-meta">Lead researcher · Northeastern University · 2024–2025</p><span class="i-result">5 models benchmarked</span><p class="i-line">FinBERT, FinGPT, GPT, RoBERTa and LLaMA on financial sentiment.</p>` },
+  { f: 0.45, tag: 'S2 · Experience', html: `<h3><i class="i-tyre i-tyre-m">M</i>Baymont by Wyndham</h3><p class="i-meta">Finance and operations intern · 2024–2025</p><span class="i-result">+9.3% room revenue</span><p class="i-line">Dynamic pricing models and ROI analyses behind $520,000 of investment decisions.</p>` },
+  { f: 0.5, tag: 'S2 · Leadership', html: `<h3><i class="i-tyre i-tyre-h">H</i>Future Business Leaders of America</h3><p class="i-meta">Region president · 2022–Present</p><span class="i-result">15+ schools · 1,000+ members</span><p class="i-line">Lead 15+ schools; ran a 700+ attendee conference and raised $2,000+ in sponsorships.</p>` },
   { f: 0.55, tag: 'S2 · Leadership', html: `<h3><i class="i-tyre i-tyre-h">H</i>Catalyst Business Advising Service</h3><p class="i-meta">Founder and president · 2023–Present</p><span class="i-result">15+ businesses · 4 countries</span><p class="i-line">A 40+ member team doing pro bono financial modeling and pitch decks.</p>` },
-  { f: 0.605, tag: 'S3 · About', html: `<h3>In the paddock</h3><p class="i-line">I like problems with a little uncertainty in them.</p><ul class="i-chips"><li class="i-hot">Formula 1</li><li>NFL</li><li>Running</li><li>Ping pong</li><li>Tennis</li><li>Poker</li></ul><ul class="i-chips"><li>Python</li><li>pandas</li><li>Java</li><li>C++</li><li>Bloomberg</li></ul>` },
+  { f: 0.605, tag: 'S3 · About', html: `<h3>In the paddock</h3><p class="i-line">I like problems with a little uncertainty in them.</p><ul class="i-chips"><li class="i-hot">Formula 1</li><li>NFL</li><li>Running</li><li>Ping pong</li><li>Tennis</li><li>Poker</li></ul><ul class="i-chips"><li>Python</li><li>pandas</li><li>SQL</li><li>JavaScript</li><li>C++</li><li>Bloomberg</li></ul>` },
   { f: 0.7, tag: 'Box, box', html: `<h3>Let’s talk</h3><p class="i-line">A good question, a trade idea or an F1 take. Send it my way.</p><div class="i-actions"><a class="i-button" href="mailto:contact.darshsinghvi@gmail.com">Email me</a><a class="i-button ghost" href="https://www.linkedin.com/in/darshsinghvi" target="_blank" rel="noreferrer">LinkedIn</a></div>` },
   { f: 0.8, tag: 'S4 · Awards', html: `<h3>Podium</h3>
       <div class="i-podium">
@@ -62,7 +62,7 @@ scene.fog = new THREE.Fog(BG, 120, 900);
 const camera = new THREE.PerspectiveCamera(55, 1, 0.5, 9000);
 
 scene.add(new THREE.HemisphereLight(0xcfd8ff, 0x0b0b0c, 0.9));
-const sun = new THREE.DirectionalLight(0xffffff, 2.2);
+const sun = new THREE.DirectionalLight(0xffffff, 1.4);
 sun.castShadow = true;
 sun.shadow.mapSize.set(1024, 1024);
 Object.assign(sun.shadow.camera, { left: -30, right: 30, top: 30, bottom: -30, near: 1, far: 200 });
@@ -261,7 +261,12 @@ const gantryPos = new THREE.Vector3();
 /* ---------- The car ---------- */
 const pmrem = new THREE.PMREMGenerator(renderer);
 const envMap = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-const { car, wheels, steer } = buildCar(envMap);
+const { car, wheels, steer, aero } = buildCar(envMap);
+// Showroom lighting that travels with the car: a warm key from the front, a cool rim from behind
+const keyLight = new THREE.SpotLight(0xfff4e6, 900, 70, 0.55, 0.7, 2);
+const rimLight = new THREE.SpotLight(0x9fb8ff, 700, 70, 0.6, 0.8, 2);
+scene.add(keyLight, keyLight.target, rimLight, rimLight.target);
+let aeroOpen = 0;
 car.scale.setScalar(1.5);
 scene.add(car);
 
@@ -465,6 +470,16 @@ function tick(now) {
   scene.fog.near = THREE.MathUtils.lerp(120, 2500, air);
   scene.fog.far = THREE.MathUtils.lerp(900, 7000, air);
   sectorLines.forEach((m) => { m.material.opacity = air * 0.85; m.visible = air > 0.01; });
+  { // Lights follow the car in its own frame
+    const fwd = new THREE.Vector3(0, 0, 1).applyQuaternion(car.quaternion);
+    const right = new THREE.Vector3(-fwd.z, 0, fwd.x);
+    keyLight.position.copy(p).addScaledVector(fwd, 12).addScaledVector(right, 7).setY(11);
+    rimLight.position.copy(p).addScaledVector(fwd, -14).addScaledVector(right, -6).setY(9);
+    keyLight.target.position.copy(p); rimLight.target.position.copy(p).setY(1);
+  }
+  // Active aero: flaps open on the straights and close for the corners
+  aeroOpen += (((phase === 'race' && profAt(lapT + 0.004) > 0.9) ? 1 : 0) - aeroOpen) * (1 - Math.exp(-dt * 6));
+  aero.forEach((a) => { a.m.rotation.x = a.closed + (a.open - a.closed) * aeroOpen; });
   sun.position.copy(p).add(new THREE.Vector3(40, 80, 30));
   sun.target.position.copy(p);
 

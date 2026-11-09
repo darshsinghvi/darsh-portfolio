@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="styles.css?v=race-8">
+  <link rel="stylesheet" href="styles.css?v=race-9">
   <link rel="stylesheet" href="lap/intro.css?v=4">
   <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
   <script>
@@ -21,7 +21,7 @@
       if (q.has('lap')) { document.documentElement.classList.add('intro-on'); history.replaceState(null, '', location.pathname + location.hash); }
     })();
   </script>
-  <script src="script.js?v=race-8" defer></script>
+  <script src="script.js?v=race-9" defer></script>
 </head>
 <body class="is-starting">
   <div class="intro" id="intro" data-phase="grid" role="region" aria-label="Intro lap of Silverstone">
@@ -140,7 +140,7 @@
             <h3>Garnet Valley High School</h3>
             <p class="slot-sub">Valedictorian · 4.30 weighted, 4.00 unweighted</p>
             <p class="slot-meta mono">Garnet Valley, PA · June 2026</p>
-            <dl><dt>Coursework</dt><dd>Multivariable Calculus, Calculus II, AP Statistics, AP Computer Science A, AP Micro and Macroeconomics</dd><dt>Activities</dt><dd>Marching Band, Bring a Smile Club, Science Olympiad, FBLA, Finance Club, NHS</dd></dl>
+            <dl><dt>Coursework</dt><dd>Multivariable Calculus, Calculus II, AP Statistics, AP Computer Science A, AP Micro and Macroeconomics</dd><dt>Activities</dt><dd>FBLA, Science Olympiad, National Honor Society, Finance Club, Bring a Smile Club, Marching Band</dd></dl>
           </article>
         </div>
       </div>
@@ -162,60 +162,60 @@
         <div class="straight-track">
           <div class="stints">
             <article class="stint">
-              <div class="stint-top mono"><span><i class="tyre tyre-s">S</i>Stint 01</span><span>Oct 2026</span></div>
-              <h3>Introductory Finance Society</h3>
-              <p class="stint-role">Trade pitch · Pittsburgh, PA</p>
-              <p class="stint-result mono">P1 · 1st place</p>
-              <ul><li>Pitched long Mosaic / short CF with June 2027 MOS $20/$27.50 bull call debit and CF $130/$150 bear call credit spreads.</li><li>Applied Black-Scholes pricing, dollar-delta hedging, 400,000 Monte Carlo simulations and half-Kelly sizing.</li></ul>
+              <div class="stint-top mono"><span><i class="tyre tyre-s">S</i>Stint 01</span><span>Nov 2026–Present</span></div>
+              <h3>Prediction Market Trading System</h3>
+              <p class="stint-role">Kalshi and Polymarket weather markets · Python, SQLite</p>
+              <p class="stint-result mono">+4.2% out of sample</p>
+              <ul><li>Built paper-trading bots for both venues with hard risk limits, queue-aware maker fill simulation and ~1s repricing on new weather reports.</li><li>Backtested on 16,000+ resolved events; the top maker strategy returned +4.2% out of sample (95% CI +2.6% to +5.8%).</li><li>Calibrated forecasts for all 65 stations still lost to market prices (log loss 0.212 vs 0.178), so I pivoted toward microstructure edges.</li></ul>
             </article>
             <article class="stint">
               <div class="stint-top mono"><span><i class="tyre tyre-s">S</i>Stint 02</span><span>Sep 2026</span></div>
               <h3>CMU MSCF Trading Competition</h3>
-              <p class="stint-role">Quantitative trading competitor · Pittsburgh, PA</p>
+              <p class="stint-role">Rotman volatility and ETF arbitrage bots · Python</p>
               <p class="stint-result mono">1st / 170+ · Most Active Trader</p>
-              <ul><li>Built a bot for two simulated markets, turning live signals into systematic strategies, order execution and risk controls.</li><li>Adjusted execution and order timing in real time from inventory, liquidity and market conditions.</li></ul>
+              <ul><li>Solved implied volatility on 10 European options with Black-Scholes and traded the mispricings with delta hedging.</li><li>Built an ETF arbitrage and market-making bot that priced tender offers against basket value, profitable across all 31 practice heats.</li><li>Replayed 100+ recorded heats to compare variants; the volatility bot earned a median $125,000 per practice heat.</li></ul>
             </article>
             <article class="stint">
-              <div class="stint-top mono"><span><i class="tyre tyre-s">S</i>Stint 03</span><span>2026</span></div>
+              <div class="stint-top mono"><span><i class="tyre tyre-s">S</i>Stint 03</span><span>Oct 2026</span></div>
+              <h3>Introductory Finance Society</h3>
+              <p class="stint-role">Trade pitch · Pittsburgh, PA</p>
+              <p class="stint-result mono">P1 · 1st place</p>
+              <ul><li>Won the October trade pitch with a long Mosaic (MOS) / short CF Industries (CF) fertilizer-sector pair trade.</li><li>Proposed a June 2027 MOS $20/$27.50 bull call debit spread and a CF $130/$150 bear call credit spread to cap downside on both legs.</li><li>Stress-tested it with Black-Scholes pricing, dollar-delta hedging, 400,000 Monte Carlo simulations and half-Kelly sizing.</li></ul>
+            </article>
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-s">S</i>Stint 04</span><span>2026</span></div>
               <h3>Susquehanna International Group</h3>
               <p class="stint-role">Quantitative Trading Discovery Program · Bala Cynwyd, PA</p>
               <p class="stint-result mono">Selected · first-year cohort</p>
-              <ul><li>Trading, probability, quantitative analysis and market structure at a global market maker.</li><li>Applied expected value, execution and decision frameworks across three market-making themes.</li></ul>
-            </article>
-            <article class="stint">
-              <div class="stint-top mono"><span><i class="tyre tyre-m">M</i>Stint 04</span><span>2024–2025</span></div>
-              <h3>AI and ML Research</h3>
-              <p class="stint-role">Lead researcher, three-person team · Northeastern University</p>
-              <p class="stint-result mono">5 models benchmarked</p>
-              <ul><li>Benchmarked FinBERT, FinGPT, GPT, RoBERTa and LLaMA on financial text and sentiment labels.</li><li>Directed the team and prepared an MSAST 2025 submission.</li></ul>
+              <ul><li>Trading, probability, quantitative analysis and market structure at a leading global market maker.</li><li>Applied expected value and decision frameworks to probability problem sets modeled on market makers’ daily trade-offs.</li><li>Studied execution, pricing and market structure across 3 market-making themes in workshops alongside SIG traders.</li></ul>
             </article>
             <article class="stint">
               <div class="stint-top mono"><span><i class="tyre tyre-m">M</i>Stint 05</span><span>2024–2025</span></div>
+              <h3>AI and ML Research</h3>
+              <p class="stint-role">Lead researcher, three-person team · Northeastern University</p>
+              <p class="stint-result mono">5 models benchmarked</p>
+              <ul><li>Benchmarked FinBERT, FinGPT, GPT, RoBERTa and LLaMA on financial text and its sentiment labels, advised by a Northeastern professor.</li><li>Designed a workflow comparing model outputs across market data, financial text and predictions to locate each model’s edge.</li><li>Directed the team, prepared an MSAST 2025 submission and wrote the final report for faculty review.</li></ul>
+            </article>
+            <article class="stint">
+              <div class="stint-top mono"><span><i class="tyre tyre-m">M</i>Stint 06</span><span>2024–2025</span></div>
               <h3>Baymont by Wyndham</h3>
               <p class="stint-role">Finance and operations intern · Milesburg, PA</p>
               <p class="stint-result mono">+9.3% room revenue</p>
-              <ul><li>Built dynamic pricing models from seasonal demand, competitor positioning and booking patterns.</li><li>Prepared ROI analyses supporting $520,000 in renovation and investment decisions.</li></ul>
-            </article>
-            <article class="stint">
-              <div class="stint-top mono"><span><i class="tyre tyre-m">M</i>Stint 06</span><span>2022–Present</span></div>
-              <h3>Venture Starters and GoAhead Ventures</h3>
-              <p class="stint-role">Venture capital intern · Los Angeles / Menlo Park, CA</p>
-              <p class="stint-result mono">~100 pitches screened</p>
-              <ul><li>Screened startup pitches for senior review on market potential, competitive position and differentiation.</li><li>Summarized theses, key risks and growth opportunities for venture discussions.</li></ul>
+              <ul><li>Built dynamic pricing models from seasonal demand, competitor rate positioning and booking patterns.</li><li>Guided room-level pricing across all room types, contributing to a 9.3% increase in total room revenue.</li><li>Prepared ROI analyses supporting $520,000 in renovation and investment decisions.</li></ul>
             </article>
             <article class="stint">
               <div class="stint-top mono"><span><i class="tyre tyre-h">H</i>Stint 07</span><span>2022–Present</span></div>
               <h3>Future Business Leaders of America</h3>
               <p class="stint-role">Region president · Anaheim, CA</p>
               <p class="stint-result mono">15+ schools · 1,000+ members</p>
-              <ul><li>Organized a 700+ attendee conference and raised $2,000+ in sponsorships.</li><li>Coach competitors in financial statement analysis, presentation strategy and case preparation.</li></ul>
+              <ul><li>Direct a region of 15+ schools and 1,000+ members across programming, competitive events and chapter support.</li><li>Organized a regional conference for 700+ attendees: schedule, competition logistics and volunteers.</li><li>Raised $2,000+ in sponsorships from local businesses for programming, materials and awards.</li></ul>
             </article>
             <article class="stint">
               <div class="stint-top mono"><span><i class="tyre tyre-h">H</i>Stint 08</span><span>2023–Present</span></div>
               <h3>Catalyst Business Advising Service</h3>
               <p class="stint-role">Founder and president · Philadelphia, PA</p>
               <p class="stint-result mono">15+ businesses · 4 countries</p>
-              <ul><li>Manage a 40+ member team providing pro bono financial modeling and pitch-deck consulting.</li><li>Deliver client analyses and presentations from scoping through final recommendations.</li></ul>
+              <ul><li>Founded and manage a 40+ member team providing pro bono financial modeling and pitch-deck consulting to early-stage founders.</li><li>Supported 15+ businesses across 4 countries with market research, financial analysis and strategic recommendations.</li><li>Recruit and train student consultants in modeling and pitch-deck design, then match them to new clients.</li></ul>
             </article>
           </div>
         </div>
@@ -244,7 +244,7 @@
             <div class="step-block"><span>2</span></div>
           </div>
           <div class="step step-1" role="listitem">
-            <div class="step-card"><span class="t-gap mono purple">1st / ~500</span><h3>FBLA National Champion</h3><p>Financial Statement Analysis, 2025 nationals</p></div>
+            <div class="step-card"><span class="t-gap mono purple">1st / ~500</span><h3>FBLA National Champion</h3><p>Financial Statement Analysis, 2025 nationals in Anaheim</p></div>
             <div class="step-block"><span>1</span></div>
           </div>
           <div class="step step-3" role="listitem">
@@ -270,11 +270,11 @@
           </div>
           <div class="setup-block">
             <p class="mono setup-title">Toolkit</p>
-            <ul class="chips"><li>Python</li><li>NumPy</li><li>pandas</li><li>scikit-learn</li><li>Java</li><li>C++</li><li>Excel</li><li>Bloomberg</li><li>CapIQ</li></ul>
+            <ul class="chips"><li>Python</li><li>NumPy</li><li>pandas</li><li>scikit-learn</li><li>SQL</li><li>JavaScript</li><li>Java</li><li>C++</li><li>Excel</li><li>Bloomberg</li><li>CapIQ</li><li>Germinal</li></ul>
           </div>
           <div class="setup-block">
             <p class="mono setup-title">Methods</p>
-            <ul class="chips"><li>Black-Scholes</li><li>Monte Carlo</li><li>Kelly sizing</li><li>Financial modeling</li><li>ROI analysis</li><li>Due diligence</li></ul>
+            <ul class="chips"><li>Black-Scholes</li><li>Monte Carlo</li><li>Kelly sizing</li><li>Financial modeling</li><li>Backtesting</li><li>Market making</li></ul>
           </div>
         </div>
       </div>

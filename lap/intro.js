@@ -1,6 +1,8 @@
 // One lap of Silverstone that plays before the main site, then hands over to it.
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { TRACK } from './track.js';
+import { buildCar } from './car.js?v=2';
 
 const root = document.getElementById('intro');
 
@@ -256,52 +258,11 @@ const gantryPos = new THREE.Vector3();
   scene.add(g);
 }
 
-/* ---------- The car (an original open-wheeler built from primitives) ---------- */
-function buildCar() {
-  const car = new THREE.Group();
-  const red = new THREE.MeshStandardMaterial({ color: '#d42a1f', roughness: 0.35, metalness: 0.3 });
-  const dark = new THREE.MeshStandardMaterial({ color: '#141518', roughness: 0.5, metalness: 0.4 });
-  const white = new THREE.MeshStandardMaterial({ color: '#f2f2f2', roughness: 0.4 });
-  const tyre = new THREE.MeshStandardMaterial({ color: '#0b0b0c', roughness: 0.9 });
-  const add = (geo, mat, x, y, z, rx = 0, ry = 0, rz = 0) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.rotation.set(rx, ry, rz); m.castShadow = true; car.add(m); return m; };
-  // Car points along +z
-  add(new THREE.BoxGeometry(0.9, 0.42, 2.6), red, 0, 0.45, -0.2);                      // tub
-  add(new THREE.CylinderGeometry(0.08, 0.32, 1.9, 12), red, 0, 0.38, 1.95, Math.PI / 2); // nose
-  add(new THREE.BoxGeometry(0.55, 0.3, 1.6), red, -0.62, 0.38, -0.4);                   // sidepods
-  add(new THREE.BoxGeometry(0.55, 0.3, 1.6), red, 0.62, 0.38, -0.4);
-  add(new THREE.BoxGeometry(0.3, 0.55, 1.4), red, 0, 0.82, -0.9);                        // engine cover
-  add(new THREE.BoxGeometry(0.06, 0.5, 1.2), white, 0, 1.15, -1.1);                      // fin
-  add(new THREE.BoxGeometry(2.1, 0.06, 0.55), dark, 0, 0.14, 2.75);                      // front wing
-  add(new THREE.BoxGeometry(0.06, 0.32, 0.6), red, -1.05, 0.25, 2.75);
-  add(new THREE.BoxGeometry(0.06, 0.32, 0.6), red, 1.05, 0.25, 2.75);
-  add(new THREE.BoxGeometry(1.5, 0.08, 0.45), dark, 0, 1.15, -2.05);                     // rear wing
-  add(new THREE.BoxGeometry(1.5, 0.06, 0.3), red, 0, 1.3, -2.15);
-  add(new THREE.BoxGeometry(0.06, 0.75, 0.6), dark, -0.75, 0.85, -2.05);
-  add(new THREE.BoxGeometry(0.06, 0.75, 0.6), dark, 0.75, 0.85, -2.05);
-  add(new THREE.SphereGeometry(0.2, 20, 14), new THREE.MeshStandardMaterial({ color: '#ffd23f', roughness: 0.3 }), 0, 0.82, 0.2); // helmet
-  add(new THREE.TorusGeometry(0.34, 0.035, 8, 24, Math.PI), dark, 0, 0.82, 0.38, 0, 0, 0); // halo
-  // Number panel
-  const cv = document.createElement('canvas'); cv.width = 128; cv.height = 64;
-  const x = cv.getContext('2d'); x.fillStyle = '#f2f2f2'; x.fillRect(0, 0, 128, 64); x.fillStyle = '#d42a1f'; x.font = '700 44px Archivo, Arial'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('DS', 64, 34);
-  const numTex = new THREE.CanvasTexture(cv); numTex.colorSpace = THREE.SRGBColorSpace;
-  add(new THREE.PlaneGeometry(0.5, 0.25), new THREE.MeshStandardMaterial({ map: numTex }), 0, 0.665, 1.0, -Math.PI / 2);
-  // Wheels
-  const wheels = [];
-  [[-0.95, 1.75, 0.34, 0.32], [0.95, 1.75, 0.34, 0.32], [-0.95, -1.4, 0.38, 0.42], [0.95, -1.4, 0.38, 0.42]].forEach(([wx, wz, r, w]) => {
-    const wheel = new THREE.Group();
-    const t = new THREE.Mesh(new THREE.CylinderGeometry(r, r, w, 24), tyre); t.rotation.z = Math.PI / 2; t.castShadow = true;
-    const rim = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.55, r * 0.55, w + 0.02, 16), dark); rim.rotation.z = Math.PI / 2;
-    const band = new THREE.Mesh(new THREE.TorusGeometry(r * 0.75, 0.025, 6, 24), new THREE.MeshStandardMaterial({ color: '#ff3b2f', emissive: '#ff3b2f', emissiveIntensity: 0.25 }));
-    band.rotation.y = Math.PI / 2; band.position.x = (wx < 0 ? -1 : 1) * (w / 2 + 0.01);
-    wheel.add(t, rim, band);
-    wheel.position.set(wx, r, wz);
-    car.add(wheel);
-    wheels.push({ wheel, r });
-  });
-  car.scale.setScalar(1.6);
-  return { car, wheels };
-}
-const { car, wheels } = buildCar();
+/* ---------- The car ---------- */
+const pmrem = new THREE.PMREMGenerator(renderer);
+const envMap = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const { car, wheels, steer } = buildCar(envMap);
+car.scale.setScalar(1.5);
 scene.add(car);
 
 /* ---------- Minimap ---------- */
@@ -343,6 +304,7 @@ const heroEl = $('.i-hero');
 const domLights = [...root.querySelectorAll('.i-lights i')];
 const hudBar = $('.i-bar > i');
 const hudMarks = $('.i-marks');
+hudMarks.textContent = '';
 SECTORS.slice(1).forEach((s) => { const m = document.createElement('span'); m.style.left = `${s.range[0] * 100}%`; hudMarks.appendChild(m); });
 const hudSectorNum = $('.i-sector b');
 const hudSection = $('.i-section');
@@ -434,14 +396,15 @@ function go(next) {
 
 // The page script removes the overlay; stop drawing when it does
 window.addEventListener('lap:end', () => {
+  pmrem.dispose(); envMap.dispose();
   running = false;
   window.removeEventListener('resize', resize);
   renderer.setAnimationLoop(null);
   setTimeout(() => { renderer.dispose(); renderer.forceContextLoss(); }, 1200);
-});
+}, { once: true });
 
 /* ---------- Loop ---------- */
-const headTarget = new THREE.Object3D(); let firstFrame = true;
+const headTarget = new THREE.Object3D(); let firstFrame = true; let steerAngle = 0;
 setLights(0); go('grid');
 camTan.copy(frameAt(lapT).tan);
 { const f = frameAt(lapT); const [p0, l0] = shot(camMode, f.p); camera.position.copy(p0); camLook.copy(l0); }
@@ -449,6 +412,7 @@ let lastTime = performance.now();
 
 function tick(now) {
   if (!running) return;
+  if (!root.isConnected) { running = false; renderer.setAnimationLoop(null); renderer.dispose(); return; }
   const dt = Math.min(0.05, (now - lastTime) / 1000); lastTime = now;
   phaseT += dt;
 
@@ -476,7 +440,13 @@ function tick(now) {
   if (firstFrame) car.quaternion.copy(headTarget.quaternion);
   else car.quaternion.slerp(headTarget.quaternion, 1 - Math.exp(-dt * 10));
   firstFrame = false;
-  wheels.forEach(({ wheel, r }) => { wheel.rotation.x += (v * dt) / (r * 1.6); });
+  wheels.forEach(({ wheel, r }) => { wheel.rotation.x += (v * dt) / (r * 1.5); });
+  { // Front wheels steer toward where the road goes next
+    const ahead = frameAt(lapT + 10 / LAP).tan;
+    const want = THREE.MathUtils.clamp(Math.atan2(tan.x * ahead.z - tan.z * ahead.x, tan.dot(ahead)) * -2.2, -0.32, 0.32);
+    steerAngle += (want - steerAngle) * (1 - Math.exp(-dt * 8));
+    steer.forEach((p) => { p.rotation.y = steerAngle; });
+  }
   camTan.lerp(new THREE.Vector3(0, 0, 1).applyQuaternion(car.quaternion), 1 - Math.exp(-dt * 4)).normalize();
 
   // Camera

@@ -50,30 +50,34 @@ function startLights() {
   ['wheel', 'touchstart', 'keydown'].forEach((type) => window.addEventListener(type, lightsOut, { once: true, passive: true }));
 }
 
-/* ---------- Intro lap: one 3D lap of Silverstone, then hand over to the page ---------- */
-const intro = document.getElementById('intro');
-let introDone = false;
+/* ---------- Drive a lap: a 3D lap of Silverstone that opens over the page on request ---------- */
+const introTemplate = document.getElementById('intro');
+introTemplate.remove();
+let introEl = null; let introRun = 0;
+function startIntro() {
+  if (introEl) return;
+  introRun += 1;
+  introEl = introTemplate.cloneNode(true);
+  document.body.prepend(introEl);
+  document.documentElement.classList.add('intro-on');
+  const skipBtn = introEl.querySelector('.i-skip');
+  skipBtn.addEventListener('click', endIntro);
+  skipBtn.focus({ preventScroll: true });
+  // A fresh module per run, so each lap starts from the grid
+  import(`./lap/intro.js?v=4&run=${introRun}`).catch(endIntro);
+}
 function endIntro() {
-  if (introDone) return;
-  introDone = true;
+  if (!introEl) return;
+  const el = introEl; introEl = null;
   window.dispatchEvent(new Event('lap:end'));
-  intro.classList.add('out');
-  window.scrollTo(0, 0);
-  setTimeout(() => {
-    document.documentElement.classList.remove('intro-on');
-    intro.remove();
-    lightsOut();
-  }, 700);
+  el.classList.add('out');
+  setTimeout(() => { el.remove(); if (!introEl) document.documentElement.classList.remove('intro-on'); }, 700);
 }
-if (document.documentElement.classList.contains('intro-on')) {
-  intro.querySelector('.i-skip').addEventListener('click', endIntro);
-  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') endIntro(); });
-  window.addEventListener('lap:finish', endIntro);
-  import('./lap/intro.js?v=3').catch(endIntro);
-} else {
-  intro.remove();
-  queueMicrotask(startLights);
-}
+window.addEventListener('lap:finish', endIntro);
+window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && introEl) endIntro(); });
+document.querySelectorAll('[data-drive]').forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); closeMenu(); startIntro(); }));
+queueMicrotask(startLights);
+if (document.documentElement.classList.contains('intro-on')) startIntro();
 
 /* ---------- Hero circuit ---------- */
 const circuitLine = document.querySelector('.c-line');
